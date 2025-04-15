@@ -1,0 +1,21 @@
+{
+    "dbName": "ITSMDB",
+    "dbConfig": {
+        "server": "HSPDC",
+        "options": {
+            "port": 1433,
+            "trustServerCertificate": true,
+            "cryptoCredentialsDetails": {
+                "minVersion": "TLSv1"
+            }
+        },
+        "authentication": {
+            "type": "default",
+            "options": {
+                "userName": "itsm_db_api",
+                "password": "dasf5%fksdj#f*f#bV["
+            }
+        }
+    },
+    "secret": "2fb3aab7-1b78-4296-85ff-8844180ae5af 7f09582e-0d65-4fe7-8788-cd9077a28299 bdbf81fa-899b-4e6e-a35f-8d86c91bbaaf"
+}
