@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const authorize = require('../_middleware/authorize')
-const todoService = require('./todos.service');
+const categoryService = require('./categorys.service');
 
 // routes
 router.get('/', authorize(), getAll);
@@ -14,35 +14,35 @@ module.exports = router;
 
 // done
 function getAll(req, res, next) {
-    todoService.getAll()
+    categoryService.getAll()
         .then(items => res.json(items))
         .catch(next);
 }
 
 // done
 function getById(req, res, next) {
-    todoService.getById(req.params.id)
+    categoryService.getById(req.params.id)
         .then(item => res.json(item))
         .catch(next);
 }
 
 // done
 function create(req, res, next) {
-    todoService.create(req.body)
+    categoryService.create(req.body)
         .then(item => res.json(item))
         .catch(next);
 }
 
 // done
 function update(req, res, next) {
-    todoService.update(req.params.id, req.body)
+    categoryService.update(req.params.id, req.body)
         .then(item => res.json(item))
         .catch(next);
 }
 
 // done
 function _delete(req, res, next) {
-    todoService.delete(req.params.id)
-        .then(() => res.json({ message: 'This todo has been deleted successfully' }))
+    categoryService.delete(req.params.id)
+        .then(() => res.json({ message: 'This category has been deleted successfully' }))
         .catch(next);
 } 

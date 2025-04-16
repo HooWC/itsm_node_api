@@ -2,6 +2,7 @@ const db = require('../_helpers/db');
 
 module.exports = {
     getAll,
+    getById,
     create,
     update,
     delete: _delete
@@ -26,6 +27,11 @@ async function getAll() {
     }
     
     return roles;
+}
+
+// done
+async function getById(id) {    
+    return await getRole(id);
 }
 
 // done
