@@ -22,6 +22,18 @@ app.get('/home', (req, res) => {
 });
 
 app.use('/users', require('./users/users.controller')); 
+app.use('/announcements', require('./announcements/announcements.controller')); 
+app.use('/departments', require('./departments/departments.controller')); 
+app.use('/feedbacks', require('./feedbacks/feedbacks.controller')); 
+app.use('/notes', require('./notes/notes.controller')); 
+app.use('/roles', require('./roles/roles.controller')); 
+app.use('/todos', require('./todos/todos.controller')); 
+app.use('/categorys', require('./categorys/categorys.controller')); 
+app.use('/knowledges', require('./knowledges/knowledges.controller')); 
+app.use('/incidents', require('./incidents/incidents.controller')); 
+app.use('/products', require('./products/products.controller')); 
+app.use('/requests', require('./requests/requests.controller')); 
+app.use('/cmdb', require('./cmdb/cmdb.controller')); 
 
 app.use(errorHandler);
 
