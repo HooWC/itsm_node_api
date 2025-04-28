@@ -48,6 +48,7 @@ async function create(params) {
 async function update(id, params) {
     await getRole(id);
 
+    const conn = await db.getConnection();
     const res = await conn.request()
         .input("id", id)
         .input("role", params.role)
@@ -77,18 +78,18 @@ async function getRole(id) {
 
     if (res.recordset.length == 0) throw 'Role not found';    
 
-    var role = new Array();
+    var roleList = new Array();
 
     for (var i = 0; i < res.recordset.length; i++) {
 
         var id = res.recordset[i].id;
         var role = res.recordset[i].role; 
 
-        role.push({
+        roleList.push({
             'id': id, 
             'role': role
         });
     }
     
-    return role;    
+    return roleList;    
 }

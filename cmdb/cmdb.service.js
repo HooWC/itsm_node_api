@@ -102,6 +102,7 @@ async function create(params) {
 async function update(id, params) {
     await getCMDB(id);
 
+    const conn = await db.getConnection();
     const res = await conn.request()
         .input("id", id)
         .input("full_name", params.full_name)

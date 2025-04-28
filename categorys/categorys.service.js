@@ -51,6 +51,7 @@ async function create(params) {
 async function update(id, params) {
     await getCategory(id);
 
+    const conn = await db.getConnection();
     const res = await conn.request()
         .input("id", id)
         .input("title", params.title)

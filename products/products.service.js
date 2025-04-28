@@ -68,6 +68,7 @@ async function create(params) {
 async function update(id, params) {
     await getProduct(id);
 
+    const conn = await db.getConnection();
     const res = await conn.request()
         .input("id", id)
         .input("category_id", params.category_id)

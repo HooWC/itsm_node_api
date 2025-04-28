@@ -58,6 +58,7 @@ async function create(params) {
 async function update(id, params) {
     await getFeedback(id);
 
+    const conn = await db.getConnection();
     const res = await conn.request()
         .input("id", id)
         .input("message", params.message)

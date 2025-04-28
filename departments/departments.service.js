@@ -55,6 +55,7 @@ async function create(params) {
 async function update(id, params) {
     await getDepartment(id);
 
+    const conn = await db.getConnection();
     const res = await conn.request()
         .input("id", id)
         .input("name", params.name)

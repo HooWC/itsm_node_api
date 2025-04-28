@@ -21,7 +21,7 @@ function getAll(req, res, next) {
 
 // done
 function getById(req, res, next) {
-    notesService.getById(req.params.id)
+    roleService.getById(req.params.id)
         .then(item => res.json(item))
         .catch(next);
 }

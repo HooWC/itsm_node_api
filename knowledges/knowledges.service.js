@@ -27,6 +27,8 @@ async function getAll() {
         var updated = res.recordset[i].updated;        
         var active = res.recordset[i].active;        
         var kb_file = res.recordset[i].kb_file;     
+        var title = res.recordset[i].title;
+        var kb_view = res.recordset[i].kb_view;
 
         know.push({
             'id': id, 
@@ -38,7 +40,9 @@ async function getAll() {
             'create_date': create_date,
             'updated': updated,
             'active': active,
-            'kb_file': kb_file
+            'kb_file': kb_file,
+            'title': title,
+            'kb_view': kb_view,
         });
     }
     
@@ -60,6 +64,8 @@ async function create(params) {
         .input("short_description", params.short_description)
         .input("category_id", params.category_id)
         .input("kb_file", params.kb_file)
+        .input("title", params.title)
+        .input("kb_view", params.kb_view)
         .execute("api_itsm_knowledge_create");
 
     return res;
@@ -69,6 +75,7 @@ async function create(params) {
 async function update(id, params) {
     await getKnowledge(id);
 
+    const conn = await db.getConnection();
     const res = await conn.request()
         .input("id", id)
         .input("article", params.article)
@@ -76,6 +83,8 @@ async function update(id, params) {
         .input("category_id", params.category_id)
         .input("active", params.active)
         .input("updated", params.updated)
+        .input("title", params.title)
+        .input("kb_view", params.kb_view)
         .execute("api_itsm_knowledge_update");
 
     return res.recordset[0];
@@ -115,7 +124,9 @@ async function getKnowledge(id) {
         var create_date = res.recordset[i].create_date;        
         var updated = res.recordset[i].updated;        
         var active = res.recordset[i].active;        
-        var kb_file = res.recordset[i].kb_file;     
+        var kb_file = res.recordset[i].kb_file;  
+        var title = res.recordset[i].title;
+        var kb_view = res.recordset[i].kb_view;   
 
         know.push({
             'id': id, 
@@ -127,7 +138,9 @@ async function getKnowledge(id) {
             'create_date': create_date,
             'updated': updated,
             'active': active,
-            'kb_file': kb_file
+            'kb_file': kb_file,
+            'title': title,
+            'kb_view': kb_view,
         });
     }
     
