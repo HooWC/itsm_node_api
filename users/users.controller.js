@@ -20,6 +20,7 @@ module.exports = router;
 // done
 function authenticateSchema(req, res, next) {
     const schema = Joi.object({
+        emp_id: Joi.string().required(),
         username: Joi.string().required(),
         password: Joi.string().required()
     });
@@ -59,7 +60,7 @@ function registerSchema(req, res, next) {
 // done
 function register(req, res, next) {
     userService.create(req.body)
-        .then(() => res.json({ message: 'Registration successful' }))
+        .then(user => res.json(user))
         .catch(next);
 }
 

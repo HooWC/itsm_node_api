@@ -15,7 +15,7 @@ module.exports = {
 };
 
 // done
-async function authenticate({ username, password }) {    
+async function authenticate({ emp_id, username, password }) {    
     try {
         // Get user from database
         const conn = await db.getConnection();
@@ -24,8 +24,9 @@ async function authenticate({ username, password }) {
         }
         
         const result = await conn.request()
+            .input('emp_id', emp_id)
             .input('username', username)
-            .query('SELECT Id, Username, Password FROM Users WHERE username = @username');
+            .query('SELECT Id, emp_id, Username, Password FROM Users WHERE username = @username');
         
         // Validate username and password
         if (result.recordset.length === 0) {
@@ -40,12 +41,13 @@ async function authenticate({ username, password }) {
         }
         
         // Authentication successful - generate JWT token
-        const token = jwt.sign({ sub: user.Id }, secret, { expiresIn: '7d' });
+        const token = jwt.sign({ sub: user.Id }, secret);
         
         // Return user info and token
         return {
             user: {
                 id: user.Id,
+                emp_id: user.emp_id,
                 username: user.Username
             },
             token
@@ -93,7 +95,7 @@ async function getAll() {
         var id = res.recordset[i].id;
         var emp_id = res.recordset[i].emp_id;
         var prefix = res.recordset[i].prefix;
-        var phone = res.recordset[i].phone;
+        var photo = res.recordset[i].photo;
         var fullname = res.recordset[i].fullname;
         var email = res.recordset[i].email;
         var gender = res.recordset[i].gender;            
@@ -112,7 +114,7 @@ async function getAll() {
             'id': id, 
             'emp_id': emp_id, 
             'prefix': prefix, 
-            'phone': phone, 
+            'photo': photo, 
             'fullname': fullname,
             'email': email, 
             'gender': gender,
@@ -190,7 +192,21 @@ async function create(params) {
         .input("race", params.race)
         .execute("api_itsm_user_register");
 
-    return res;
+    // 获取新注册用户的ID
+    const userId = res.recordset[0].id;
+    
+    // 生成JWT token，与authenticate函数保持一致
+    const token = jwt.sign({ sub: userId }, secret);
+    
+    // 返回用户信息和token，格式与authenticate函数相同
+    return {
+        user: {
+            id: userId,
+            emp_id: params.emp_id,
+            username: params.username
+        },
+        token
+    };
 }
 
 // done
@@ -305,7 +321,7 @@ async function getUser(id) {
         var id = res.recordset[i].id;
         var emp_id = res.recordset[i].emp_id;
         var prefix = res.recordset[i].prefix;
-        var phone = res.recordset[i].phone;
+        var photo = res.recordset[i].photo;
         var fullname = res.recordset[i].fullname;
         var email = res.recordset[i].email;
         var gender = res.recordset[i].gender;            
