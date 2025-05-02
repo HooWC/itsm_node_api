@@ -67,7 +67,7 @@ async function getAll() {
     
     for (var i = 0; i < res.recordset.length; i++) {
 
-        if(res.recordset[i].department_id == 1) 
+        /* if(res.recordset[i].department_id == 1) 
             var department = 'IT';
          else if(res.recordset[i].department_id == 2) 
             var department = 'HR';
@@ -90,7 +90,7 @@ async function getAll() {
         if(res.recordset[i].active == 1) 
             var activeInfo = "Active";
          else
-            var activeInfo = "Blocked";
+            var activeInfo = "Blocked"; */
         
         var id = res.recordset[i].id;
         var emp_id = res.recordset[i].emp_id;
@@ -99,16 +99,16 @@ async function getAll() {
         var fullname = res.recordset[i].fullname;
         var email = res.recordset[i].email;
         var gender = res.recordset[i].gender;            
-        var department = department;            
+        var department_id = res.recordset[i].department_id;            
         var title = res.recordset[i].title;            
         var business_phone = res.recordset[i].business_phone;            
         var mobile_phone = res.recordset[i].mobile_phone;            
-        var role = role;            
+        var role_id = res.recordset[i].role_id;            
         var username = res.recordset[i].username;            
         var race = res.recordset[i].race;            
         var create_date = res.recordset[i].create_date;            
         var update_date = res.recordset[i].update_date;            
-        var active = activeInfo;            
+        var active = res.recordset[i].active;            
 
         user.push({
             'id': id, 
@@ -118,11 +118,11 @@ async function getAll() {
             'fullname': fullname,
             'email': email, 
             'gender': gender,
-            'department': department,
+            'department_id': department_id,
             'title': title,
             'business_phone': business_phone,
             'mobile_phone': mobile_phone,
-            'role': role,
+            'role_id': role_id,
             'username': username,
             'race': race,
             'create_date': create_date,
@@ -293,7 +293,7 @@ async function getUser(id) {
 
     for (var i = 0; i < res.recordset.length; i++) {
 
-        if(res.recordset[i].department_id == 1) 
+        /* if(res.recordset[i].department_id == 1) 
             var department = 'IT';
          else if(res.recordset[i].department_id == 2) 
             var department = 'HR';
@@ -316,7 +316,7 @@ async function getUser(id) {
         if(res.recordset[i].active == 1) 
             var activeInfo = "Active";
          else
-            var activeInfo = "Blocked";
+            var activeInfo = "Blocked"; */
         
         var id = res.recordset[i].id;
         var emp_id = res.recordset[i].emp_id;
@@ -325,16 +325,16 @@ async function getUser(id) {
         var fullname = res.recordset[i].fullname;
         var email = res.recordset[i].email;
         var gender = res.recordset[i].gender;            
-        var department = department;            
+        var department_id = res.recordset[i].department_id;            
         var title = res.recordset[i].title;            
         var business_phone = res.recordset[i].business_phone;            
         var mobile_phone = res.recordset[i].mobile_phone;            
-        var role = role;            
+        var role_id = res.recordset[i].role_id;            
         var username = res.recordset[i].username;            
         var race = res.recordset[i].race;            
         var create_date = res.recordset[i].create_date;            
         var update_date = res.recordset[i].update_date;            
-        var active = activeInfo;            
+        var active = res.recordset[i].active;           
 
         user.push({
             'id': id, 
@@ -344,11 +344,11 @@ async function getUser(id) {
             'fullname': fullname,
             'email': email, 
             'gender': gender,
-            'department': department,
+            'department_id': department_id,
             'title': title,
             'business_phone': business_phone,
             'mobile_phone': mobile_phone,
-            'role': role,
+            'role_id': role_id,
             'username': username,
             'race': race,
             'create_date': create_date,

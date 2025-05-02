@@ -17,18 +17,18 @@ async function getAll() {
     
     for (var i = 0; i < res.recordset.length; i++) {
 
-        if(res.recordset[i].active == 1){
+        /* if(res.recordset[i].active == 1){
             active_status = "Complete";
         }else{
             active_status = "Incomplete";
-        }
+        } */
 
         var id = res.recordset[i].id;
         var user_id = res.recordset[i].user_id;        
         var title = res.recordset[i].title;       
         var create_date = res.recordset[i].create_date;        
         var update_date = res.recordset[i].update_date;        
-        var active = active_status;        
+        var active = res.recordset[i].active;        
 
         todos.push({
             'id': id, 
@@ -101,27 +101,27 @@ async function getTodo(id) {
 
     for (var i = 0; i < res.recordset.length; i++) {
 
-        if(res.recordset[i].active == 1){
+        /* if(res.recordset[i].active == 1){
             active_status = "Complete";
         }else{
             active_status = "Incomplete";
-        }
+        } */
 
-        var id = res.recordset[i].id;
-        var user_id = res.recordset[i].user_id;        
-        var title = res.recordset[i].title;       
-        var create_date = res.recordset[i].create_date;        
-        var update_date = res.recordset[i].update_date;        
-        var active = active_status;        
-
-        todos.push({
-            'id': id, 
-            'user_id': user_id,
-            'title': title,
-            'create_date': create_date,
-            'update_date': update_date,
-            'active': active
-        });
+            var id = res.recordset[i].id;
+            var user_id = res.recordset[i].user_id;        
+            var title = res.recordset[i].title;       
+            var create_date = res.recordset[i].create_date;        
+            var update_date = res.recordset[i].update_date;        
+            var active = res.recordset[i].active;        
+    
+            todos.push({
+                'id': id, 
+                'user_id': user_id,
+                'title': title,
+                'create_date': create_date,
+                'update_date': update_date,
+                'active': active
+            });
     }
     
     return notes;    
