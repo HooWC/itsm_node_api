@@ -340,7 +340,7 @@ async function getUser(id) {
             'id': id, 
             'emp_id': emp_id, 
             'prefix': prefix, 
-            'phone': phone, 
+            'photo': photo, 
             'fullname': fullname,
             'email': email, 
             'gender': gender,
