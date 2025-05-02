@@ -73,7 +73,9 @@ function getAll(req, res, next) {
 
 // done
 function getCurrent(req, res, next) {
-    res.json(req.user);
+    userService.getById(req.user.id)
+        .then(user => res.json(user))
+        .catch(next);
 }
 
 // done
