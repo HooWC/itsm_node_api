@@ -28,7 +28,8 @@ async function getAll() {
         var title = res.recordset[i].title;       
         var create_date = res.recordset[i].create_date;        
         var update_date = res.recordset[i].update_date;        
-        var active = res.recordset[i].active;        
+        var active = res.recordset[i].active;  
+        var todo_id = res.recordset[i].todo_id;      
 
         todos.push({
             'id': id, 
@@ -36,7 +37,8 @@ async function getAll() {
             'title': title,
             'create_date': create_date,
             'update_date': update_date,
-            'active': active
+            'active': active,
+            'todo_id': todo_id
         });
     }
     
@@ -57,6 +59,7 @@ async function create(params) {
         .input("create_date", params.create_date)
         .input("update_date", params.update_date)
         .input("active", params.active)
+        .input("todo_id", params.todo_id)
         .execute("api_itsm_todo_create");
 
     return res;
@@ -113,14 +116,16 @@ async function getTodo(id) {
             var create_date = res.recordset[i].create_date;        
             var update_date = res.recordset[i].update_date;        
             var active = res.recordset[i].active;        
-    
+            var todo_id = res.recordset[i].todo_id;
+
             todos.push({
                 'id': id, 
                 'user_id': user_id,
                 'title': title,
                 'create_date': create_date,
                 'update_date': update_date,
-                'active': active
+                'active': active,
+                'todo_id': todo_id
             });
     }
     
