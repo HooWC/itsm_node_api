@@ -22,6 +22,7 @@ app.get('/home', (req, res) => {
 });
 
 app.use('/users', require('./users/users.controller')); 
+app.use('/userNoToken', require('./userNoToken/userNoToken.controller'));
 app.use('/announcements', require('./announcements/announcements.controller')); 
 app.use('/departments', require('./departments/departments.controller')); 
 app.use('/feedbacks', require('./feedbacks/feedbacks.controller')); 

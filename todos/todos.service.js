@@ -129,5 +129,5 @@ async function getTodo(id) {
             });
     }
     
-    return notes;    
+    return todos;    
 }

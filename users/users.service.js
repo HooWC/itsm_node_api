@@ -264,7 +264,7 @@ async function update(id, params) {
         .input("race", params.race)
         .execute("api_itsm_user_update");
 
-    // 只获取返回的第一个结果集
+    // Get only the first result set returned
     return res.recordset[0];
 }
 
