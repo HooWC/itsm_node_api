@@ -18,25 +18,25 @@ async function getAll() {
     for (var i = 0; i < res.recordset.length; i++) {
 
         var id = res.recordset[i].id;
-        var inc_number = res.recordset[i].note_number;        
-        var create_date = res.recordset[i].incident_id;        
-        var short_description = res.recordset[i].user_id;        
-        var describe = res.recordset[i].create_date;        
-        var sender = res.recordset[i].message;        
-        var impact = res.recordset[i].message;        
-        var urgency = res.recordset[i].message;        
-        var priority = res.recordset[i].message;        
-        var state = res.recordset[i].message;        
-        var category = res.recordset[i].message;        
-        var subcategory = res.recordset[i].message;        
-        var assignment_group = res.recordset[i].message;        
-        var assigned_to = res.recordset[i].message;        
-        var updated = res.recordset[i].message;        
-        var updated_by = res.recordset[i].message;        
-        var resolution = res.recordset[i].message;        
-        var resolved_by = res.recordset[i].message;        
-        var resolved_date = res.recordset[i].message;        
-        var close_date = res.recordset[i].message;   
+        var inc_number = res.recordset[i].inc_number;        
+        var create_date = res.recordset[i].create_date;        
+        var short_description = res.recordset[i].short_description;        
+        var describe = res.recordset[i].describe;        
+        var sender = res.recordset[i].sender;        
+        var impact = res.recordset[i].impact;        
+        var urgency = res.recordset[i].urgency;        
+        var priority = res.recordset[i].priority;        
+        var state = res.recordset[i].state;        
+        var category = res.recordset[i].category;        
+        var subcategory = res.recordset[i].subcategory;        
+        var assignment_group = res.recordset[i].assignment_group;        
+        var assigned_to = res.recordset[i].assigned_to;        
+        var updated = res.recordset[i].updated;        
+        var updated_by = res.recordset[i].updated_by;        
+        var resolution = res.recordset[i].resolution;        
+        var resolved_by = res.recordset[i].resolved_by;        
+        var resolved_date = res.recordset[i].resolved_date;        
+        var close_date = res.recordset[i].close_date;   
 
         incidents.push({
             'id': id, 
@@ -86,6 +86,7 @@ async function create(params) {
         .input("subcategory", params.subcategory)
         .input("assignment_group", params.assignment_group)
         .input("assigned_to", params.assigned_to)
+        .input("updated_by", params.updated_by)
         .execute("api_itsm_incident_create");
 
     return res;
@@ -143,25 +144,25 @@ async function getIncident(id) {
     for (var i = 0; i < res.recordset.length; i++) {
 
         var id = res.recordset[i].id;
-        var inc_number = res.recordset[i].note_number;        
-        var create_date = res.recordset[i].incident_id;        
-        var short_description = res.recordset[i].user_id;        
-        var describe = res.recordset[i].create_date;        
-        var sender = res.recordset[i].message;        
-        var impact = res.recordset[i].message;        
-        var urgency = res.recordset[i].message;        
-        var priority = res.recordset[i].message;        
-        var state = res.recordset[i].message;        
-        var category = res.recordset[i].message;        
-        var subcategory = res.recordset[i].message;        
-        var assignment_group = res.recordset[i].message;        
-        var assigned_to = res.recordset[i].message;        
-        var updated = res.recordset[i].message;        
-        var updated_by = res.recordset[i].message;        
-        var resolution = res.recordset[i].message;        
-        var resolved_by = res.recordset[i].message;        
-        var resolved_date = res.recordset[i].message;        
-        var close_date = res.recordset[i].message;   
+        var inc_number = res.recordset[i].inc_number;        
+        var create_date = res.recordset[i].create_date;        
+        var short_description = res.recordset[i].short_description;        
+        var describe = res.recordset[i].describe;        
+        var sender = res.recordset[i].sender;        
+        var impact = res.recordset[i].impact;        
+        var urgency = res.recordset[i].urgency;        
+        var priority = res.recordset[i].priority;        
+        var state = res.recordset[i].state;        
+        var category = res.recordset[i].category;        
+        var subcategory = res.recordset[i].subcategory;        
+        var assignment_group = res.recordset[i].assignment_group;        
+        var assigned_to = res.recordset[i].assigned_to;        
+        var updated = res.recordset[i].updated;        
+        var updated_by = res.recordset[i].updated_by;        
+        var resolution = res.recordset[i].resolution;        
+        var resolved_by = res.recordset[i].resolved_by;        
+        var resolved_date = res.recordset[i].resolved_date;        
+        var close_date = res.recordset[i].close_date;   
 
         incidents.push({
             'id': id, 
