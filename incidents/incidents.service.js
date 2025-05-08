@@ -37,7 +37,7 @@ async function getAll() {
         var resolved_by = res.recordset[i].resolved_by;        
         var resolved_date = res.recordset[i].resolved_date;        
         var close_date = res.recordset[i].close_date;   
-        var resolced_time = res.recordset[i].resolced_time; 
+        var resolved_type = res.recordset[i].resolved_type; 
 
         incidents.push({
             'id': id, 
@@ -60,7 +60,7 @@ async function getAll() {
             'resolved_by': resolved_by,
             'resolved_date': resolved_date,
             'close_date': close_date,
-            'resolced_time': resolced_time
+            'resolved_type': resolved_type
         });
     }
     
@@ -115,6 +115,7 @@ async function update(id, params) {
         .input("resolved_by", params.resolved_by)
         .input("resolved_date", params.resolved_date)
         .input("close_date", params.close_date)
+        .input("updated_by", params.updated_by)
         .input("resolved_type", params.resolved_type)
         .execute("api_itsm_incident_update");
 
@@ -166,7 +167,7 @@ async function getIncident(id) {
         var resolved_by = res.recordset[i].resolved_by;        
         var resolved_date = res.recordset[i].resolved_date;        
         var close_date = res.recordset[i].close_date;  
-        var resolced_time = res.recordset[i].resolced_time; 
+        var resolved_type = res.recordset[i].resolved_type; 
 
         incidents.push({
             'id': id, 
@@ -189,7 +190,7 @@ async function getIncident(id) {
             'resolved_by': resolved_by,
             'resolved_date': resolved_date,
             'close_date': close_date,
-            'resolced_time': resolced_time
+            'resolved_type': resolved_type
         });
     }
     
