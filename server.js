@@ -20,6 +20,7 @@ app.get('/', (req, res) => {
 app.get('/home', (req, res) => {
   res.status(200).json('Welcome, your app is working well');
 });
+// For testing api
 
 app.use('/users', require('./users/users.controller')); 
 app.use('/userNoToken', require('./userNoToken/userNoToken.controller'));
