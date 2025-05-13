@@ -109,6 +109,7 @@ async function getAll() {
         var create_date = res.recordset[i].create_date;            
         var update_date = res.recordset[i].update_date;            
         var active = res.recordset[i].active;            
+        var photo_type = res.recordset[i].photo_type;            
 
         user.push({
             'id': id, 
@@ -127,7 +128,8 @@ async function getAll() {
             'race': race,
             'create_date': create_date,
             'update_date': update_date,
-            'active': active
+            'active': active,
+            "photo_type": photo_type
         });
     }
     
@@ -190,6 +192,7 @@ async function create(params) {
         .input("username", params.username)
         .input("password", passwordHash)
         .input("race", params.race)
+        .input("photo_type", params.photo_type)
         .execute("api_itsm_user_register");
 
     // 获取新注册用户的ID
@@ -262,6 +265,7 @@ async function update(id, params) {
         .input("username", params.username)
         .input("password", passwordHash)
         .input("race", params.race)
+        .input("photo_type", params.photo_type)
         .execute("api_itsm_user_update");
 
     // Get only the first result set returned
@@ -335,6 +339,7 @@ async function getUser(id) {
         var create_date = res.recordset[i].create_date;            
         var update_date = res.recordset[i].update_date;            
         var active = res.recordset[i].active;           
+        var photo_type = res.recordset[i].photo_type;            
 
         user.push({
             'id': id, 
@@ -353,7 +358,8 @@ async function getUser(id) {
             'race': race,
             'create_date': create_date,
             'update_date': update_date,
-            'active': active
+            'active': active,
+            "photo_type": photo_type
         });
     }
     

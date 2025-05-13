@@ -1,4 +1,5 @@
 const db = require('../_helpers/db');
+const sql = require('mssql');
 
 module.exports = {
     getAll,
@@ -16,27 +17,34 @@ async function getAll() {
     var products = new Array();
     
     for (var i = 0; i < res.recordset.length; i++) {
+        const record = res.recordset[i];
+
+        let photoBase64 = null;
+        if (record.photo && Buffer.isBuffer(record.photo)) {
+            photoBase64 = record.photo.toString("base64");
+        }
 
         var id = res.recordset[i].id;
-        var pro_number = res.recordset[i].note_number;        
-        var category_id = res.recordset[i].incident_id;        
-        var photo = res.recordset[i].user_id;        
-        var item_title = res.recordset[i].create_date;        
-        var description = res.recordset[i].message;        
-        var quantity = res.recordset[i].message;        
-        var active = res.recordset[i].message;        
-        var responsible = res.recordset[i].message;        
+        var pro_number = res.recordset[i].pro_number;        
+        var category_id = res.recordset[i].category_id; 
+        var item_title = res.recordset[i].item_title;        
+        var description = res.recordset[i].description;        
+        var quantity = res.recordset[i].quantity;        
+        var active = res.recordset[i].active;        
+        var responsible = res.recordset[i].responsible;        
+        var photo_type = res.recordset[i].photo_type;        
 
         products.push({
             'id': id, 
             'pro_number': pro_number,
             'category_id': category_id,
-            'photo': photo,
+            'photo': photoBase64,
             'item_title': item_title,
             'description': description,
             'quantity': quantity,
             'active': active,
-            'responsible': responsible
+            'responsible': responsible,
+            'photo_type': photo_type
         });
     }
     
@@ -51,16 +59,28 @@ async function getById(id) {
 // done
 async function create(params) {
     const conn = await db.getConnection();
-    const res = await conn.request()
+    const request = conn.request()
         .input("pro_number", params.pro_number)
         .input("category_id", params.category_id)
-        .input("photo", params.photo)
         .input("item_title", params.item_title)
         .input("description", params.description)
         .input("quantity", params.quantity)
         .input("responsible", params.responsible)
-        .execute("api_itsm_product_create");
+        .input("photo_type", params.photo_type);
 
+    if (params.photo) {
+        try {
+            const base64Data = params.photo.replace(/^data:image\/\w+;base64,/, '');
+            const photoBuffer = Buffer.from(base64Data, 'base64');
+            request.input("photo", sql.VarBinary(sql.MAX), photoBuffer);
+        } catch (error) {
+            throw new Error('Failed to process photo data: ' + error.message);
+        }
+    } else {
+        request.input("photo", sql.VarBinary, null);
+    }
+
+    const res = await request.execute("api_itsm_product_create");
     return res;
 }
 
@@ -69,17 +89,30 @@ async function update(id, params) {
     await getProduct(id);
 
     const conn = await db.getConnection();
-    const res = await conn.request()
+    const request = conn.request()
         .input("id", id)
         .input("category_id", params.category_id)
-        .input("photo", params.photo)
         .input("item_title", params.item_title)
         .input("description", params.description)
         .input("quantity", params.quantity)
         .input("active", params.active)
         .input("responsible", params.responsible)
-        .execute("api_itsm_product_update");
+        .input("photo_type", params.photo_type);
+    
+        if (params.photo) {
+            try {
+                const base64Data = params.photo.replace(/^data:image\/\w+;base64,/, '');
+                const photoBuffer = Buffer.from(base64Data, 'base64');
+                request.input("photo", sql.VarBinary(sql.MAX), photoBuffer);
+            } catch (error) {
+                throw new Error('Failed to process photo data: ' + error.message);
+            }
+        } 
+        else {
+            request.input("photo", sql.VarBinary, null);
+        }
 
+    const res = await request.execute("api_itsm_product_update");
     return res.recordset[0];
 }
 
@@ -107,27 +140,34 @@ async function getProduct(id) {
     var products = new Array();
     
     for (var i = 0; i < res.recordset.length; i++) {
+        const record = res.recordset[i];
+
+        let photoBase64 = null;
+        if (record.photo && Buffer.isBuffer(record.photo)) {
+            photoBase64 = record.photo.toString("base64");
+        }
 
         var id = res.recordset[i].id;
-        var pro_number = res.recordset[i].note_number;        
-        var category_id = res.recordset[i].incident_id;        
-        var photo = res.recordset[i].user_id;        
-        var item_title = res.recordset[i].create_date;        
-        var description = res.recordset[i].message;        
-        var quantity = res.recordset[i].message;        
-        var active = res.recordset[i].message;        
-        var responsible = res.recordset[i].message;        
+        var pro_number = res.recordset[i].pro_number;        
+        var category_id = res.recordset[i].category_id; 
+        var item_title = res.recordset[i].item_title;        
+        var description = res.recordset[i].description;        
+        var quantity = res.recordset[i].quantity;        
+        var active = res.recordset[i].active;        
+        var responsible = res.recordset[i].responsible;        
+        var photo_type = res.recordset[i].photo_type;        
 
         products.push({
             'id': id, 
             'pro_number': pro_number,
             'category_id': category_id,
-            'photo': photo,
+            'photo': photoBase64,
             'item_title': item_title,
             'description': description,
             'quantity': quantity,
             'active': active,
-            'responsible': responsible
+            'responsible': responsible,
+            'photo_type': photo_type
         });
     }
     
