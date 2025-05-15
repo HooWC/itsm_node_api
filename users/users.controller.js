@@ -87,25 +87,9 @@ function getById(req, res, next) {
 
 // done
 function updateSchema(req, res, next) {
-    const schema = Joi.object({
-        emp_id: Joi.string().optional(),
-        prefix: Joi.string().optional(),
-        photo: Joi.alternatives()
-            .try(Joi.binary(), Joi.string(), Joi.allow(null))
-            .optional(),
-        fullname: Joi.string().optional(),
-        email: Joi.string().optional(),
-        gender: Joi.string().optional(),          
-        department_id: Joi.number().integer().optional(),
-        title: Joi.string().optional(),
-        business_phone: Joi.string().allow('', null).optional(),
-        mobile_phone: Joi.string().optional(),
-        role_id: Joi.number().integer().optional(),
-        username: Joi.string().optional(),
-        password: Joi.string().min(6).optional(),
-        race: Joi.string().optional(),
-    });
-    validateRequest(req, next, schema);
+    userService.update(req.params.id, req.body)
+        .then(item => res.json(item))
+        .catch(next);
 }
 
 // done

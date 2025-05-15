@@ -88,6 +88,12 @@ async function create(params) {
 async function update(id, params) {
     await getProduct(id);
 
+    // console.group("All params:", params);
+    // console.log("Me photo_type:", params.photo_type);
+    // console.groupEnd();
+
+    // console.log("Received photo type:", typeof params.photo);
+
     const conn = await db.getConnection();
     const request = conn.request()
         .input("id", id)

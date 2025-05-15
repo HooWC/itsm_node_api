@@ -66,6 +66,12 @@ async function getAll() {
     var user = new Array();
     
     for (var i = 0; i < res.recordset.length; i++) {
+        const record = res.recordset[i];
+
+        let photoBase64 = null;
+        if (record.photo && Buffer.isBuffer(record.photo)) {
+            photoBase64 = record.photo.toString("base64");
+        }
 
         /* if(res.recordset[i].department_id == 1) 
             var department = 'IT';
@@ -95,7 +101,6 @@ async function getAll() {
         var id = res.recordset[i].id;
         var emp_id = res.recordset[i].emp_id;
         var prefix = res.recordset[i].prefix;
-        var photo = res.recordset[i].photo;
         var fullname = res.recordset[i].fullname;
         var email = res.recordset[i].email;
         var gender = res.recordset[i].gender;            
@@ -115,7 +120,7 @@ async function getAll() {
             'id': id, 
             'emp_id': emp_id, 
             'prefix': prefix, 
-            'photo': photo, 
+            'photo': photoBase64, 
             'fullname': fullname,
             'email': email, 
             'gender': gender,
@@ -168,19 +173,9 @@ async function create(params) {
         }
     }
 
-    let photo = null;
-    if (params.photo && typeof params.photo === 'string') {
-        photo = Buffer.from(params.photo, 'base64');
-    } else if (Buffer.isBuffer(params.photo)) {
-        photo = params.photo;
-    } else {
-        photo = null;
-    }
-
-    const res = await conn.request()
+    const request = conn.request()
         .input("emp_id", params.emp_id)
         .input("prefix", prefix || null)
-        .input("photo", sql.VarBinary(sql.MAX), photo)
         .input("fullname", params.fullname)
         .input("email", params.email)
         .input("gender", params.gender)
@@ -191,17 +186,14 @@ async function create(params) {
         .input("role_id", params.role_id)
         .input("username", params.username)
         .input("password", passwordHash)
-        .input("race", params.race)
-        .input("photo_type", params.photo_type)
-        .execute("api_itsm_user_register");
+        .input("race", params.race);
 
-    // 获取新注册用户的ID
+    const res = await request.execute("api_itsm_user_register");
+
     const userId = res.recordset[0].id;
     
-    // 生成JWT token，与authenticate函数保持一致
     const token = jwt.sign({ sub: userId }, secret);
     
-    // 返回用户信息和token，格式与authenticate函数相同
     return {
         user: {
             id: userId,
@@ -216,7 +208,13 @@ async function create(params) {
 async function update(id, params) {
     const user = await getUser(id);
 
-    const usernameChanged = params.username && user.username !== params.username;
+    // console.group("All params:", params);
+    // console.log("Me photo_type:", params.photo_type);
+    // console.groupEnd();
+
+    // console.log("Received photo type:", typeof params.photo);
+
+    const usernameChanged = params.username && user[0].username !== params.username;
 
     const conn = await db.getConnection();
     const resChecking = await conn.request().input('input_parameter', params.username)
@@ -224,11 +222,6 @@ async function update(id, params) {
 
     if (usernameChanged && resChecking.recordset.length >= 1)
         throw 'Username "' + params.username + '" is already taken';
-
-    var passwordHash = '';
-    if (params.password) {
-        passwordHash = await bcrypt.hash(params.password, 10);
-    }
 
     let prefix = '';
     if (params.gender) {
@@ -240,20 +233,10 @@ async function update(id, params) {
         }
     }
 
-    let photo = null;
-    if (params.photo && typeof params.photo === 'string') {
-        photo = Buffer.from(params.photo, 'base64');
-    } else if (Buffer.isBuffer(params.photo)) {
-        photo = params.photo;
-    } else {
-        photo = null;
-    }
-
-    const res = await conn.request()
+    const request = conn.request()
         .input("id", id)
         .input("emp_id", params.emp_id)
         .input("prefix", prefix || null)
-        .input("photo", sql.VarBinary(sql.MAX), photo)
         .input("fullname", params.fullname)
         .input("email", params.email)
         .input("gender", params.gender)
@@ -262,13 +245,32 @@ async function update(id, params) {
         .input("business_phone", params.business_phone !== undefined ? params.business_phone : null)
         .input("mobile_phone", params.mobile_phone)
         .input("role_id", params.role_id)
-        .input("username", params.username)
-        .input("password", passwordHash)
-        .input("race", params.race)
         .input("photo_type", params.photo_type)
-        .execute("api_itsm_user_update");
+        .input("race", params.race);
+    
+    if (usernameChanged) {
+        request.input("username", params.username);
+    }
 
-    // Get only the first result set returned
+    if (params.password && params.password.trim() !== '') {
+        const passwordHash = await bcrypt.hash(params.password, 10);
+        request.input("password", passwordHash);
+    } 
+
+    if (params.photo && typeof params.photo === 'string') {
+        
+        const base64Data = params.photo.startsWith('data:image/') 
+            ? params.photo.split(',')[1] 
+            : params.photo;
+        
+        const photoBuffer = Buffer.from(base64Data, 'base64');
+        request.input("photo", sql.VarBinary(sql.MAX), photoBuffer);
+    } else {
+        request.input("photo", sql.VarBinary, null);
+    }
+
+    const res = await request.execute("api_itsm_user_update");
+
     return res.recordset[0];
 }
 
@@ -296,6 +298,12 @@ async function getUser(id) {
     var user = new Array();
 
     for (var i = 0; i < res.recordset.length; i++) {
+        const record = res.recordset[i];
+
+        let photoBase64 = null;
+        if (record.photo && Buffer.isBuffer(record.photo)) {
+            photoBase64 = record.photo.toString("base64");
+        }
 
         /* if(res.recordset[i].department_id == 1) 
             var department = 'IT';
@@ -325,7 +333,6 @@ async function getUser(id) {
         var id = res.recordset[i].id;
         var emp_id = res.recordset[i].emp_id;
         var prefix = res.recordset[i].prefix;
-        var photo = res.recordset[i].photo;
         var fullname = res.recordset[i].fullname;
         var email = res.recordset[i].email;
         var gender = res.recordset[i].gender;            
@@ -345,7 +352,7 @@ async function getUser(id) {
             'id': id, 
             'emp_id': emp_id, 
             'prefix': prefix, 
-            'photo': photo, 
+            'photo': photoBase64, 
             'fullname': fullname,
             'email': email, 
             'gender': gender,
