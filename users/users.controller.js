@@ -8,7 +8,7 @@ const userService = require('./users.service');
 
 // routes
 router.post('/authenticate', authenticateSchema, authenticate);
-router.post('/register', registerSchema, register);
+router.post('/register', register);
 router.get('/', authorize(), getAll);
 router.get('/current', authorize(), getCurrent);
 router.get('/:id', authorize(), getById);
@@ -35,7 +35,7 @@ function authenticate(req, res, next) {
 }
 
 // done
-function registerSchema(req, res, next) {
+/* function registerSchema(req, res, next) {
     const schema = Joi.object({
         emp_id: Joi.string().required(),
         prefix: Joi.string().optional(),
@@ -55,7 +55,7 @@ function registerSchema(req, res, next) {
         race: Joi.string().required(),
     });
     validateRequest(req, next, schema);
-}
+} */
 
 // done
 function register(req, res, next) {

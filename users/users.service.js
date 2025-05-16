@@ -170,6 +170,8 @@ async function create(params) {
             prefix = 'Mr.';
         } else if (gender === 'female') {
             prefix = 'Ms.';
+        } else {
+            prefix = '-';
         }
     }
 
@@ -186,7 +188,19 @@ async function create(params) {
         .input("role_id", params.role_id)
         .input("username", params.username)
         .input("password", passwordHash)
-        .input("race", params.race);
+        .input("race", params.race)
+        .input("photo_type", params.photo_type)
+
+    if (params.photo && typeof params.photo === 'string') {
+        const base64Data = params.photo.startsWith('data:image/') 
+            ? params.photo.split(',')[1] 
+            : params.photo;
+        
+        const photoBuffer = Buffer.from(base64Data, 'base64');
+        request.input("photo", sql.VarBinary(sql.MAX), photoBuffer);
+    } else {
+        request.input("photo", sql.VarBinary, null);
+    }
 
     const res = await request.execute("api_itsm_user_register");
 
@@ -246,6 +260,7 @@ async function update(id, params) {
         .input("mobile_phone", params.mobile_phone)
         .input("role_id", params.role_id)
         .input("photo_type", params.photo_type)
+        .input("active", params.active)
         .input("race", params.race);
     
     if (usernameChanged) {

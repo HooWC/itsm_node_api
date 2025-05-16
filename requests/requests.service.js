@@ -68,6 +68,7 @@ async function create(params) {
         .input("description", params.description)
         .input("assignment_group", params.assignment_group)
         .input("quantity", params.quantity)
+        .input("updated_by", params.updated_by)
         .execute("api_itsm_request_create");
 
     return res;
