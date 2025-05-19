@@ -33,6 +33,7 @@ async function getAll() {
         var active = res.recordset[i].active;        
         var responsible = res.recordset[i].responsible;        
         var photo_type = res.recordset[i].photo_type;        
+        var product_type = res.recordset[i].product_type;        
 
         products.push({
             'id': id, 
@@ -44,7 +45,8 @@ async function getAll() {
             'quantity': quantity,
             'active': active,
             'responsible': responsible,
-            'photo_type': photo_type
+            'photo_type': photo_type,
+            'product_type': product_type
         });
     }
     
@@ -66,7 +68,8 @@ async function create(params) {
         .input("description", params.description)
         .input("quantity", params.quantity)
         .input("responsible", params.responsible)
-        .input("photo_type", params.photo_type);
+        .input("photo_type", params.photo_type)
+        .input("product_type", params.product_type);
 
     if (params.photo) {
         try {
@@ -103,7 +106,8 @@ async function update(id, params) {
         .input("quantity", params.quantity)
         .input("active", params.active)
         .input("responsible", params.responsible)
-        .input("photo_type", params.photo_type);
+        .input("photo_type", params.photo_type)
+        .input("product_type", params.product_type);
     
         if (params.photo) {
             try {
@@ -162,6 +166,7 @@ async function getProduct(id) {
         var active = res.recordset[i].active;        
         var responsible = res.recordset[i].responsible;        
         var photo_type = res.recordset[i].photo_type;        
+        var product_type = res.recordset[i].product_type;        
 
         products.push({
             'id': id, 
@@ -173,7 +178,8 @@ async function getProduct(id) {
             'quantity': quantity,
             'active': active,
             'responsible': responsible,
-            'photo_type': photo_type
+            'photo_type': photo_type,
+            'product_type': product_type
         });
     }
     
