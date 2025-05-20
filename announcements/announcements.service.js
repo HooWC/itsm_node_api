@@ -66,6 +66,7 @@ async function update(id, params) {
         .input("id", id)
         .input("message", params.message)
         .input("ann_title", params.ann_title)
+        .input("create_by", params.create_by)
         .execute("api_itsm_announcement_update");
 
     return res.recordset[0];
