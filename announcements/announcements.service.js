@@ -22,7 +22,8 @@ async function getAll() {
         var create_by = res.recordset[i].create_by;        
         var create_date = res.recordset[i].create_date;        
         var update_date = res.recordset[i].update_date;        
-        var message = res.recordset[i].message;        
+        var message = res.recordset[i].message;  
+        var ann_title = res.recordset[i].ann_title;      
 
         anns.push({
             'id': id, 
@@ -30,7 +31,8 @@ async function getAll() {
             'create_by': create_by,
             'create_date': create_date,
             'update_date': update_date,
-            'message': message
+            'message': message,
+            'ann_title': ann_title
         });
     }
     
@@ -49,6 +51,7 @@ async function create(params) {
         .input("at_number", params.at_number)
         .input("create_by", params.create_by)
         .input("message", params.message)
+        .input("ann_title", params.ann_title)
         .execute("api_itsm_announcement_create");
 
     return res;
@@ -62,6 +65,7 @@ async function update(id, params) {
     const res = await conn.request()
         .input("id", id)
         .input("message", params.message)
+        .input("ann_title", params.ann_title)
         .execute("api_itsm_announcement_update");
 
     return res.recordset[0];
@@ -98,6 +102,7 @@ async function getAnnouncement(id) {
         var create_date = res.recordset[i].create_date;        
         var update_date = res.recordset[i].update_date;        
         var message = res.recordset[i].message;   
+        var ann_title = res.recordset[i].ann_title;
 
         anns.push({
             'id': id, 
@@ -105,7 +110,8 @@ async function getAnnouncement(id) {
             'create_by': create_by,
             'create_date': create_date,
             'update_date': update_date,
-            'message': message
+            'message': message,
+            'ann_title': ann_title
         });
     }
     
