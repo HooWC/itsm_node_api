@@ -1,4 +1,5 @@
 const db = require('../_helpers/db');
+const sql = require('mssql');
 
 module.exports = {
     getAll,
@@ -16,19 +17,24 @@ async function getAll() {
     var know = new Array();
     
     for (var i = 0; i < res.recordset.length; i++) {
+        const record = res.recordset[i];
 
-        var id = res.recordset[i].id;
-        var kb_number = res.recordset[i].kb_number;        
-        var author = res.recordset[i].author;        
-        var article = res.recordset[i].article;        
-        var short_description = res.recordset[i].short_description;        
-        var category_id = res.recordset[i].category_id;        
-        var create_date = res.recordset[i].create_date;        
-        var updated = res.recordset[i].updated;        
-        var active = res.recordset[i].active;        
-        var kb_file = res.recordset[i].kb_file;     
-        var title = res.recordset[i].title;
-        var kb_view = res.recordset[i].kb_view;
+        var id = record.id;
+        var kb_number = record.kb_number;        
+        var author = record.author;        
+        var article = record.article;        
+        var short_description = record.short_description;        
+        var category_id = record.category_id;        
+        var create_date = record.create_date;        
+        var updated = record.updated;        
+        var active = record.active;           
+        var title = record.title;
+        var kb_view = record.kb_view !== null ? record.kb_view : 0;
+
+        let kb_file_base64 = null;
+        if (record.kb_file && Buffer.isBuffer(record.kb_file)) {
+            kb_file_base64 = record.kb_file.toString("base64");
+        }
 
         know.push({
             'id': id, 
@@ -40,7 +46,7 @@ async function getAll() {
             'create_date': create_date,
             'updated': updated,
             'active': active,
-            'kb_file': kb_file,
+            'kb_file': kb_file_base64,
             'title': title,
             'kb_view': kb_view,
         });
@@ -57,16 +63,26 @@ async function getById(id) {
 // done
 async function create(params) {
     const conn = await db.getConnection();
-    const res = await conn.request()
+    const request = conn.request()
         .input("kb_number", params.kb_number)
         .input("author", params.author)
         .input("article", params.article)
         .input("short_description", params.short_description)
         .input("category_id", params.category_id)
-        .input("kb_file", params.kb_file)
-        .input("title", params.title)
-        .input("kb_view", params.kb_view)
-        .execute("api_itsm_knowledge_create");
+        .input("title", params.title);
+
+    if (params.kb_file && typeof params.kb_file === 'string') {
+        const base64Data = params.kb_file.startsWith('data:') 
+            ? params.kb_file.split(',')[1] 
+            : params.kb_file;
+        
+        const fileBuffer = Buffer.from(base64Data, 'base64');
+        request.input("kb_file", sql.VarBinary(sql.MAX), fileBuffer);
+    } else {
+        request.input("kb_file", sql.VarBinary, null);
+    }
+
+    const res = await request.execute("api_itsm_knowledge_create");
 
     return res;
 }
@@ -76,16 +92,27 @@ async function update(id, params) {
     await getKnowledge(id);
 
     const conn = await db.getConnection();
-    const res = await conn.request()
+    const request = conn.request()
         .input("id", id)
         .input("article", params.article)
         .input("short_description", params.short_description)
         .input("category_id", params.category_id)
         .input("active", params.active)
         .input("updated", params.updated)
-        .input("title", params.title)
-        .input("kb_view", params.kb_view)
-        .execute("api_itsm_knowledge_update");
+        .input("title", params.title);
+
+    if (params.kb_file && typeof params.kb_file === 'string') {
+        const base64Data = params.kb_file.startsWith('data:') 
+            ? params.kb_file.split(',')[1] 
+            : params.kb_file;
+        
+        const fileBuffer = Buffer.from(base64Data, 'base64');
+        request.input("kb_file", sql.VarBinary(sql.MAX), fileBuffer);
+    } else {
+        request.input("kb_file", sql.VarBinary, null);
+    }
+
+    const res = await request.execute("api_itsm_knowledge_update");
 
     return res.recordset[0];
 }
@@ -114,19 +141,24 @@ async function getKnowledge(id) {
     var know = new Array();
     
     for (var i = 0; i < res.recordset.length; i++) {
+        const record = res.recordset[i];
 
-        var id = res.recordset[i].id;
-        var kb_number = res.recordset[i].kb_number;        
-        var author = res.recordset[i].author;        
-        var article = res.recordset[i].article;        
-        var short_description = res.recordset[i].short_description;        
-        var category_id = res.recordset[i].category_id;        
-        var create_date = res.recordset[i].create_date;        
-        var updated = res.recordset[i].updated;        
-        var active = res.recordset[i].active;        
-        var kb_file = res.recordset[i].kb_file;  
-        var title = res.recordset[i].title;
-        var kb_view = res.recordset[i].kb_view;   
+        var id = record.id;
+        var kb_number = record.kb_number;        
+        var author = record.author;        
+        var article = record.article;        
+        var short_description = record.short_description;        
+        var category_id = record.category_id;        
+        var create_date = record.create_date;        
+        var updated = record.updated;        
+        var active = record.active;           
+        var title = record.title;
+        var kb_view = record.kb_view !== null ? record.kb_view : 0;   
+
+        let kb_file_base64 = null;
+        if (record.kb_file && Buffer.isBuffer(record.kb_file)) {
+            kb_file_base64 = record.kb_file.toString("base64");
+        }
 
         know.push({
             'id': id, 
@@ -138,7 +170,7 @@ async function getKnowledge(id) {
             'create_date': create_date,
             'updated': updated,
             'active': active,
-            'kb_file': kb_file,
+            'kb_file': kb_file_base64,
             'title': title,
             'kb_view': kb_view,
         });
