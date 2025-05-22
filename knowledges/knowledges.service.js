@@ -30,6 +30,7 @@ async function getAll() {
         var active = record.active;           
         var title = record.title;
         var kb_view = record.kb_view !== null ? record.kb_view : 0;
+        var kb_type = record.kb_type;
 
         let kb_file_base64 = null;
         if (record.kb_file && Buffer.isBuffer(record.kb_file)) {
@@ -49,6 +50,7 @@ async function getAll() {
             'kb_file': kb_file_base64,
             'title': title,
             'kb_view': kb_view,
+            'kb_type': kb_type,
         });
     }
     
@@ -69,6 +71,7 @@ async function create(params) {
         .input("article", params.article)
         .input("short_description", params.short_description)
         .input("category_id", params.category_id)
+        .input("kb_type", params.kb_type)
         .input("title", params.title);
 
     if (params.kb_file && typeof params.kb_file === 'string') {
@@ -99,7 +102,8 @@ async function update(id, params) {
         .input("category_id", params.category_id)
         .input("active", params.active)
         .input("updated", params.updated)
-        .input("title", params.title);
+        .input("title", params.title)
+        .input("kb_type", params.kb_type);
 
     if (params.kb_file && typeof params.kb_file === 'string') {
         const base64Data = params.kb_file.startsWith('data:') 
@@ -154,6 +158,7 @@ async function getKnowledge(id) {
         var active = record.active;           
         var title = record.title;
         var kb_view = record.kb_view !== null ? record.kb_view : 0;   
+        var kb_type = record.kb_type;
 
         let kb_file_base64 = null;
         if (record.kb_file && Buffer.isBuffer(record.kb_file)) {
@@ -173,6 +178,7 @@ async function getKnowledge(id) {
             'kb_file': kb_file_base64,
             'title': title,
             'kb_view': kb_view,
+            'kb_type': kb_type,
         });
     }
     
