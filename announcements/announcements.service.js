@@ -23,7 +23,13 @@ async function getAll() {
         var create_date = res.recordset[i].create_date;        
         var update_date = res.recordset[i].update_date;        
         var message = res.recordset[i].message;  
-        var ann_title = res.recordset[i].ann_title;      
+        var ann_title = res.recordset[i].ann_title;  
+        var ann_type = res.recordset[i].ann_type;  
+        
+        let ann_file_base64 = null;
+        if (record.ann_file && Buffer.isBuffer(record.ann_file)) {
+            ann_file_base64 = record.ann_file.toString("base64");
+        }
 
         anns.push({
             'id': id, 
@@ -32,7 +38,9 @@ async function getAll() {
             'create_date': create_date,
             'update_date': update_date,
             'message': message,
-            'ann_title': ann_title
+            'ann_title': ann_title,
+            'ann_type': ann_type,
+            'ann_file': ann_file_base64
         });
     }
     
@@ -47,12 +55,25 @@ async function getById(id) {
 // done
 async function create(params) {
     const conn = await db.getConnection();
-    const res = await conn.request()
+    const request = conn.request()
         .input("at_number", params.at_number)
         .input("create_by", params.create_by)
         .input("message", params.message)
         .input("ann_title", params.ann_title)
-        .execute("api_itsm_announcement_create");
+        .input("ann_type", params.ann_type);
+
+    if (params.ann_file && typeof params.ann_file === 'string') {
+        const base64Data = params.ann_file.startsWith('data:') 
+            ? params.ann_file.split(',')[1] 
+            : params.ann_file;
+        
+        const fileBuffer = Buffer.from(base64Data, 'base64');
+        request.input("ann_file", sql.VarBinary(sql.MAX), fileBuffer);
+    } else {
+        request.input("ann_file", sql.VarBinary, null);
+    }
+    
+    const res = await request.execute("api_itsm_announcement_create");
 
     return res;
 }
@@ -62,12 +83,25 @@ async function update(id, params) {
     await getAnnouncement(id);
 
     const conn = await db.getConnection();
-    const res = await conn.request()
+    const request = conn.request()
         .input("id", id)
         .input("message", params.message)
         .input("ann_title", params.ann_title)
         .input("create_by", params.create_by)
-        .execute("api_itsm_announcement_update");
+        .input("ann_type", params.ann_type);
+
+    if (params.ann_file && typeof params.ann_file === 'string') {
+        const base64Data = params.ann_file.startsWith('data:') 
+            ? params.ann_file.split(',')[1] 
+            : params.ann_file;
+        
+        const fileBuffer = Buffer.from(base64Data, 'base64');
+        request.input("ann_file", sql.VarBinary(sql.MAX), fileBuffer);
+    } else {
+        request.input("ann_file", sql.VarBinary, null);
+    }
+
+    const res = await request.execute("api_itsm_announcement_update");
 
     return res.recordset[0];
 }
@@ -104,6 +138,12 @@ async function getAnnouncement(id) {
         var update_date = res.recordset[i].update_date;        
         var message = res.recordset[i].message;   
         var ann_title = res.recordset[i].ann_title;
+        var ann_type = res.recordset[i].ann_type;
+
+        let ann_file_base64 = null;
+        if (record.ann_file && Buffer.isBuffer(record.ann_file)) {
+            ann_file_base64 = record.ann_file.toString("base64");
+        }
 
         anns.push({
             'id': id, 
@@ -112,7 +152,9 @@ async function getAnnouncement(id) {
             'create_date': create_date,
             'update_date': update_date,
             'message': message,
-            'ann_title': ann_title
+            'ann_title': ann_title,
+            'ann_type': ann_type,
+            'ann_file': ann_file_base64
         });
     }
     
