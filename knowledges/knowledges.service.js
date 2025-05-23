@@ -101,7 +101,6 @@ async function update(id, params) {
         .input("short_description", params.short_description)
         .input("category_id", params.category_id)
         .input("active", params.active)
-        .input("updated", params.updated)
         .input("title", params.title)
         .input("kb_type", params.kb_type);
 
