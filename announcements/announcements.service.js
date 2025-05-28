@@ -1,4 +1,5 @@
 const db = require('../_helpers/db');
+const sql = require('mssql');
 
 module.exports = {
     getAll,
@@ -27,8 +28,8 @@ async function getAll() {
         var ann_type = res.recordset[i].ann_type;  
         
         let ann_file_base64 = null;
-        if (record.ann_file && Buffer.isBuffer(record.ann_file)) {
-            ann_file_base64 = record.ann_file.toString("base64");
+        if (res.recordset[i].ann_file && Buffer.isBuffer(res.recordset[i].ann_file)) {
+            ann_file_base64 = res.recordset[i].ann_file.toString("base64");
         }
 
         anns.push({
@@ -141,8 +142,8 @@ async function getAnnouncement(id) {
         var ann_type = res.recordset[i].ann_type;
 
         let ann_file_base64 = null;
-        if (record.ann_file && Buffer.isBuffer(record.ann_file)) {
-            ann_file_base64 = record.ann_file.toString("base64");
+        if (res.recordset[i].ann_file && Buffer.isBuffer(res.recordset[i].ann_file)) {
+            ann_file_base64 = res.recordset[i].ann_file.toString("base64");
         }
 
         anns.push({
