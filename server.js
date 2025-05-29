@@ -36,6 +36,7 @@ app.use('/incidents', require('./incidents/incidents.controller'));
 app.use('/products', require('./products/products.controller')); 
 app.use('/requests', require('./requests/requests.controller')); 
 app.use('/cmdb', require('./cmdb/cmdb.controller')); 
+app.use('/myversions', require('./myversion/myversion.controller')); 
 
 app.use(errorHandler);
 
