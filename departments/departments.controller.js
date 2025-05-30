@@ -5,6 +5,7 @@ const departmentService = require('./departments.service');
 
 // routes
 router.get('/', authorize(), getAll);
+router.get('/getall', getAll);
 router.get('/:id', authorize(), getById);
 router.post('/', authorize(), create);
 router.put('/:id', authorize(), update);
