@@ -26,18 +26,18 @@ async function authenticate({ emp_id, username, password }) {
         const result = await conn.request()
             .input('emp_id', emp_id)
             .input('username', username)
-            .query('SELECT Id, emp_id, Username, Password FROM Users WHERE username = @username');
+            .query('SELECT Id, emp_id, Username, Password FROM Users WHERE username = @username AND emp_id = @emp_id');
         
         // Validate username and password
         if (result.recordset.length === 0) {
-            //throw 'Username or password is incorrect';
+            throw 'Username or password is incorrect';
         }
         
         const user = result.recordset[0];
         
         // Check password
         if (!await bcrypt.compare(password, user.Password)) {
-            //throw 'Username or password is incorrect';
+            throw 'Username or password is incorrect';
         }
         
         // Authentication successful - generate JWT token
@@ -54,7 +54,7 @@ async function authenticate({ emp_id, username, password }) {
         };
     } catch (error) {
         //console.error("Authentication error:", error);
-        //throw error;
+        throw error;
     }
 }
 
