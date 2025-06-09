@@ -87,6 +87,9 @@ async function getAll() {
         var update_date = res.recordset[i].update_date;            
         var active = res.recordset[i].active;            
         var photo_type = res.recordset[i].photo_type;            
+        var approve = res.recordset[i].approve; 
+        var Manager = res.recordset[i].Manager; 
+        var r_manager = res.recordset[i].r_manager;           
 
         user.push({
             'id': id, 
@@ -105,7 +108,10 @@ async function getAll() {
             'create_date': create_date,
             'update_date': update_date,
             'active': active,
-            "photo_type": photo_type
+            "photo_type": photo_type,
+            "approve": approve,
+            "Manager": Manager,
+            "r_manager": r_manager
         });
     }
     
@@ -152,6 +158,9 @@ async function create(params) {
         .input("password", passwordHash)
         .input("race", params.race)
         .input("photo_type", params.photo_type)
+        .input("approve", params.approve)
+        .input("Manager", params.Manager)
+        .input("r_manager", params.r_manager)
 
     if (params.photo && typeof params.photo === 'string') {
         const base64Data = params.photo.startsWith('data:image/') 
@@ -182,6 +191,7 @@ async function create(params) {
 // done
 async function update(id, params) {
     const user = await getUser(id);
+    const conn = await db.getConnection();
 
     let prefix = '';
     if (params.gender) {
@@ -207,7 +217,10 @@ async function update(id, params) {
         .input("role_id", params.role_id)
         .input("photo_type", params.photo_type)
         .input("active", params.active)
-        .input("race", params.race);
+        .input("race", params.race)
+        .input("approve", params.approve)
+        .input("Manager", params.Manager)
+        .input("r_manager", params.r_manager);
 
     if (params.password && params.password.trim() !== '') {
         const passwordHash = await bcrypt.hash(params.password, 10);
@@ -277,7 +290,10 @@ async function getUser(id) {
         var create_date = res.recordset[i].create_date;            
         var update_date = res.recordset[i].update_date;            
         var active = res.recordset[i].active;           
-        var photo_type = res.recordset[i].photo_type;            
+        var photo_type = res.recordset[i].photo_type; 
+        var approve = res.recordset[i].approve; 
+        var Manager = res.recordset[i].Manager; 
+        var r_manager = res.recordset[i].r_manager;           
 
         user.push({
             'id': id, 
@@ -296,7 +312,10 @@ async function getUser(id) {
             'create_date': create_date,
             'update_date': update_date,
             'active': active,
-            "photo_type": photo_type
+            "photo_type": photo_type,
+            "approve": approve,
+            "Manager": Manager,
+            "r_manager": r_manager
         });
     }
     
