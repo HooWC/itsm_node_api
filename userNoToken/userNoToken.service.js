@@ -7,8 +7,8 @@ module.exports = {
     forgotPassword
 };
 
-// Get user by emp_id and username without token
-async function getByIdNoToken({ emp_id, username }) {    
+// Get user by emp_id without token
+async function getByIdNoToken({ emp_id }) {    
     try {
         // Get user from database
         const conn = await db.getConnection();
@@ -18,7 +18,6 @@ async function getByIdNoToken({ emp_id, username }) {
         
         const result = await conn.request()
             .input('emp_id', emp_id)
-            .input('username', username)
             .execute("api_itsm_user_get_by_id_no_token");
         
         // Validate user exists
@@ -34,7 +33,7 @@ async function getByIdNoToken({ emp_id, username }) {
 }
 
 // Forgot password function, update password
-async function forgotPassword({ emp_id, username, password }) {
+async function forgotPassword({ emp_id, password }) {
     try {
         // Get connection
         const conn = await db.getConnection();
@@ -45,7 +44,6 @@ async function forgotPassword({ emp_id, username, password }) {
         // Check user exists
         const checkResult = await conn.request()
             .input('emp_id', emp_id)
-            .input('username', username)
             .execute("api_itsm_user_get_by_id_no_token");
         
         if (checkResult.recordset.length === 0) {

@@ -26,7 +26,7 @@ function authorize() {
                 
                 const respond = await conn.request()
                     .input('id', req.auth.sub)
-                    .query('SELECT id, username FROM Users WHERE id = @id');
+                    .query('SELECT id FROM Users WHERE id = @id');
                 
                 // Check user still exists
                 if (respond.recordset.length === 0) {

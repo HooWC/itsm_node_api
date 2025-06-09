@@ -15,12 +15,11 @@ module.exports = router;
 function getByIdNoTokenSchema(req, res, next) {
     const schema = Joi.object({
         emp_id: Joi.string().required(),
-        username: Joi.string().required()
     });
     validateRequest(req, next, schema);
 }
 
-// Get user by emp_id and username
+// Get user by emp_id
 function getByIdNoToken(req, res, next) {
     userNoTokenService.getByIdNoToken(req.body)
         .then(user => res.json(user))
@@ -31,7 +30,6 @@ function getByIdNoToken(req, res, next) {
 function forgotPasswordSchema(req, res, next) {
     const schema = Joi.object({
         emp_id: Joi.string().required(),
-        username: Joi.string().required(),
         password: Joi.string().min(6).required()
     });
     validateRequest(req, next, schema);

@@ -21,7 +21,6 @@ module.exports = router;
 function authenticateSchema(req, res, next) {
     const schema = Joi.object({
         emp_id: Joi.string().required(),
-        username: Joi.string().required(),
         password: Joi.string().required()
     });
     validateRequest(req, next, schema);

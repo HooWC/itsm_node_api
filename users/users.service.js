@@ -15,7 +15,7 @@ module.exports = {
 };
 
 // done
-async function authenticate({ emp_id, username, password }) {    
+async function authenticate({ emp_id, password }) {    
     try {
         // Get user from database
         const conn = await db.getConnection();
@@ -25,19 +25,18 @@ async function authenticate({ emp_id, username, password }) {
         
         const result = await conn.request()
             .input('emp_id', emp_id)
-            .input('username', username)
-            .query('SELECT Id, emp_id, Username, Password FROM Users WHERE username = @username AND emp_id = @emp_id');
+            .query('SELECT Id, emp_id, Password FROM Users WHERE emp_id = @emp_id');
         
-        // Validate username and password
+        // Validate employee id and password
         if (result.recordset.length === 0) {
-            throw 'Username or password is incorrect';
+            throw 'Employee ID or password is incorrect';
         }
         
         const user = result.recordset[0];
         
         // Check password
         if (!await bcrypt.compare(password, user.Password)) {
-            throw 'Username or password is incorrect';
+            throw 'Password is incorrect';
         }
         
         // Authentication successful - generate JWT token
@@ -48,7 +47,6 @@ async function authenticate({ emp_id, username, password }) {
             user: {
                 id: user.Id,
                 emp_id: user.emp_id,
-                username: user.Username
             },
             token
         };
@@ -72,31 +70,6 @@ async function getAll() {
         if (record.photo && Buffer.isBuffer(record.photo)) {
             photoBase64 = record.photo.toString("base64");
         }
-
-        /* if(res.recordset[i].department_id == 1) 
-            var department = 'IT';
-         else if(res.recordset[i].department_id == 2) 
-            var department = 'HR';
-         else if(res.recordset[i].department_id == 3) 
-            var department = 'Finance';
-         else if(res.recordset[i].department_id == 4) 
-            var department = 'Logistics';
-         else if(res.recordset[i].department_id == 5) 
-            var department = 'Support';
-         else
-            var department = 'Other';
-
-        if(res.recordset[i].role_id == 1) 
-            var role = 'Admin';
-         else if(res.recordset[i].role_id == 2) 
-            var role = 'ITIL';
-         else
-            var role = 'User';
-
-        if(res.recordset[i].active == 1) 
-            var activeInfo = "Active";
-         else
-            var activeInfo = "Blocked"; */
         
         var id = res.recordset[i].id;
         var emp_id = res.recordset[i].emp_id;
@@ -108,8 +81,7 @@ async function getAll() {
         var title = res.recordset[i].title;            
         var business_phone = res.recordset[i].business_phone;            
         var mobile_phone = res.recordset[i].mobile_phone;            
-        var role_id = res.recordset[i].role_id;            
-        var username = res.recordset[i].username;            
+        var role_id = res.recordset[i].role_id;               
         var race = res.recordset[i].race;            
         var create_date = res.recordset[i].create_date;            
         var update_date = res.recordset[i].update_date;            
@@ -129,7 +101,6 @@ async function getAll() {
             'business_phone': business_phone,
             'mobile_phone': mobile_phone,
             'role_id': role_id,
-            'username': username,
             'race': race,
             'create_date': create_date,
             'update_date': update_date,
@@ -149,14 +120,6 @@ async function getById(id) {
 // done
 async function create(params) {
     const conn = await db.getConnection();
-
-    const resChecking = await conn.request()
-        .input('input_parameter', params.username)
-        .query('SELECT id, username, password FROM Users WHERE username = @input_parameter');
-
-    if (resChecking.recordset.length >= 1) {
-        throw 'Username "' + params.username + '" is already taken';
-    }
 
     if (!params.password) {
         throw 'No password is provided';
@@ -186,7 +149,6 @@ async function create(params) {
         .input("business_phone", params.business_phone !== undefined ? params.business_phone : null)
         .input("mobile_phone", params.mobile_phone)
         .input("role_id", params.role_id)
-        .input("username", params.username)
         .input("password", passwordHash)
         .input("race", params.race)
         .input("photo_type", params.photo_type)
@@ -211,8 +173,7 @@ async function create(params) {
     return {
         user: {
             id: userId,
-            emp_id: params.emp_id,
-            username: params.username
+            emp_id: params.emp_id
         },
         token
     };
@@ -221,21 +182,6 @@ async function create(params) {
 // done
 async function update(id, params) {
     const user = await getUser(id);
-
-    // console.group("All params:", params);
-    // console.log("Me photo_type:", params.photo_type);
-    // console.groupEnd();
-
-    // console.log("Received photo type:", typeof params.photo);
-
-    const usernameChanged = params.username && user[0].username !== params.username;
-
-    const conn = await db.getConnection();
-    const resChecking = await conn.request().input('input_parameter', params.username)
-        .query('SELECT id, username, password FROM Users WHERE username = @input_parameter');
-
-    if (usernameChanged && resChecking.recordset.length >= 1)
-        throw 'Username "' + params.username + '" is already taken';
 
     let prefix = '';
     if (params.gender) {
@@ -262,10 +208,6 @@ async function update(id, params) {
         .input("photo_type", params.photo_type)
         .input("active", params.active)
         .input("race", params.race);
-    
-    if (usernameChanged) {
-        request.input("username", params.username);
-    }
 
     if (params.password && params.password.trim() !== '') {
         const passwordHash = await bcrypt.hash(params.password, 10);
@@ -319,31 +261,6 @@ async function getUser(id) {
         if (record.photo && Buffer.isBuffer(record.photo)) {
             photoBase64 = record.photo.toString("base64");
         }
-
-        /* if(res.recordset[i].department_id == 1) 
-            var department = 'IT';
-         else if(res.recordset[i].department_id == 2) 
-            var department = 'HR';
-         else if(res.recordset[i].department_id == 3) 
-            var department = 'Finance';
-         else if(res.recordset[i].department_id == 4) 
-            var department = 'Logistics';
-         else if(res.recordset[i].department_id == 5) 
-            var department = 'Support';
-         else
-            var department = 'Other';
-
-        if(res.recordset[i].role_id == 1) 
-            var role = 'Admin';
-         else if(res.recordset[i].role_id == 2) 
-            var role = 'ITIL';
-         else
-            var role = 'User';
-
-        if(res.recordset[i].active == 1) 
-            var activeInfo = "Active";
-         else
-            var activeInfo = "Blocked"; */
         
         var id = res.recordset[i].id;
         var emp_id = res.recordset[i].emp_id;
@@ -355,8 +272,7 @@ async function getUser(id) {
         var title = res.recordset[i].title;            
         var business_phone = res.recordset[i].business_phone;            
         var mobile_phone = res.recordset[i].mobile_phone;            
-        var role_id = res.recordset[i].role_id;            
-        var username = res.recordset[i].username;            
+        var role_id = res.recordset[i].role_id;              
         var race = res.recordset[i].race;            
         var create_date = res.recordset[i].create_date;            
         var update_date = res.recordset[i].update_date;            
@@ -376,7 +292,6 @@ async function getUser(id) {
             'business_phone': business_phone,
             'mobile_phone': mobile_phone,
             'role_id': role_id,
-            'username': username,
             'race': race,
             'create_date': create_date,
             'update_date': update_date,
