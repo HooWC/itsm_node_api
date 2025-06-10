@@ -3,6 +3,7 @@ const db = require('../_helpers/db');
 module.exports = {
     getAll,
     getById,
+    getByIncId,
     create,
     update,
     delete: _delete
@@ -147,6 +148,67 @@ async function getIncident(id) {
     
     for (var i = 0; i < res.recordset.length; i++) {
 
+        var id = res.recordset[i].id;
+        var inc_number = res.recordset[i].inc_number;        
+        var create_date = res.recordset[i].create_date;        
+        var short_description = res.recordset[i].short_description;        
+        var describe = res.recordset[i].describe;        
+        var sender = res.recordset[i].sender;        
+        var impact = res.recordset[i].impact;        
+        var urgency = res.recordset[i].urgency;        
+        var priority = res.recordset[i].priority;        
+        var state = res.recordset[i].state;        
+        var category = res.recordset[i].category;        
+        var subcategory = res.recordset[i].subcategory;        
+        var assignment_group = res.recordset[i].assignment_group;        
+        var assigned_to = res.recordset[i].assigned_to;        
+        var updated = res.recordset[i].updated;        
+        var updated_by = res.recordset[i].updated_by;        
+        var resolution = res.recordset[i].resolution;        
+        var resolved_by = res.recordset[i].resolved_by;        
+        var resolved_date = res.recordset[i].resolved_date;        
+        var close_date = res.recordset[i].close_date;  
+        var resolved_type = res.recordset[i].resolved_type; 
+
+        incidents.push({
+            'id': id, 
+            'inc_number': inc_number,
+            'create_date': create_date,
+            'short_description': short_description,
+            'describe': describe,
+            'sender': sender,
+            'impact': impact,
+            'urgency': urgency,
+            'priority': priority,
+            'state': state,
+            'category': category,
+            'subcategory': subcategory,
+            'assignment_group': assignment_group,
+            'assigned_to': assigned_to,
+            'updated': updated,
+            'updated_by': updated_by,
+            'resolution': resolution,
+            'resolved_by': resolved_by,
+            'resolved_date': resolved_date,
+            'close_date': close_date,
+            'resolved_type': resolved_type
+        });
+    }
+    
+    return incidents;    
+}
+
+async function getByIncId(inc_number) {
+    const conn = await db.getConnection();
+    const res = await conn.request()
+        .input("inc_number", inc_number)
+        .execute("api_itsm_incident_get_by_incid");
+
+    if (res.recordset.length == 0) throw 'Incident data not found';    
+
+    var incidents = new Array();
+    
+    for (var i = 0; i < res.recordset.length; i++) {
         var id = res.recordset[i].id;
         var inc_number = res.recordset[i].inc_number;        
         var create_date = res.recordset[i].create_date;        
