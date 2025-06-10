@@ -117,7 +117,7 @@ async function update(id, params) {
             } catch (error) {
                 throw new Error('Failed to process photo data: ' + error.message);
             }
-        } 
+        }
         else {
             request.input("photo", sql.VarBinary, null);
         }
