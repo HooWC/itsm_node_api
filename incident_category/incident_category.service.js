@@ -53,7 +53,7 @@ async function update(id, params) {
         .input("name", params.name)
         .execute("api_itsm_incidentcategory_update");
 
-    return res;
+    return res.recordset[0];
 }
 
 // done
@@ -89,5 +89,5 @@ async function getCategory(id) {
         });
     }
     
-    return categories[0];
+    return categories;
 } 

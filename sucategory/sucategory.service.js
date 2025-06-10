@@ -61,7 +61,7 @@ async function update(id, params) {
         .input("department_id", params.department_id)
         .execute("api_itsm_sucategory_update");
 
-    return res;
+    return res.recordset[0];
 }
 
 // done
@@ -101,5 +101,5 @@ async function getSucategory(id) {
         });
     }
     
-    return sucategorys[0];
+    return sucategorys;
 } 
