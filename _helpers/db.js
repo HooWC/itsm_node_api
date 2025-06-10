@@ -37,6 +37,3 @@ class DBConnection {
 }
 
 module.exports = new DBConnection(); 
-
-Incidents: require('../incidents/incidents.model'),
-Sucategory: require('../sucategory/sucategory.model'), 
