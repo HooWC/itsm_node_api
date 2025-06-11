@@ -20,13 +20,10 @@ async function getAll() {
 
         var id = res.recordset[i].id;
         var inc_number = res.recordset[i].inc_number;        
-        var create_date = res.recordset[i].create_date;        
-        var short_description = res.recordset[i].short_description;        
+        var create_date = res.recordset[i].create_date;               
         var describe = res.recordset[i].describe;        
         var sender = res.recordset[i].sender;        
-        var impact = res.recordset[i].impact;        
-        var urgency = res.recordset[i].urgency;        
-        var priority = res.recordset[i].priority;        
+        var urgency = res.recordset[i].urgency;          
         var state = res.recordset[i].state;        
         var category = res.recordset[i].category;        
         var subcategory = res.recordset[i].subcategory;        
@@ -44,12 +41,9 @@ async function getAll() {
             'id': id, 
             'inc_number': inc_number,
             'create_date': create_date,
-            'short_description': short_description,
             'describe': describe,
             'sender': sender,
-            'impact': impact,
             'urgency': urgency,
-            'priority': priority,
             'state': state,
             'category': category,
             'subcategory': subcategory,
@@ -78,12 +72,9 @@ async function create(params) {
     const conn = await db.getConnection();
     const res = await conn.request()
         .input("inc_number", params.inc_number)
-        .input("short_description", params.short_description)
         .input("describe", params.describe)
         .input("sender", params.sender)
-        .input("impact", params.impact)
         .input("urgency", params.urgency)
-        .input("priority", params.priority)
         .input("state", params.state)
         .input("category", params.category)
         .input("subcategory", params.subcategory)
@@ -102,11 +93,8 @@ async function update(id, params) {
     const conn = await db.getConnection();
     const res = await conn.request()
         .input("id", id)
-        .input("short_description", params.short_description)
         .input("describe", params.describe)
-        .input("impact", params.impact)
         .input("urgency", params.urgency)
-        .input("priority", params.priority)
         .input("state", params.state)
         .input("category", params.category)
         .input("subcategory", params.subcategory)
@@ -150,13 +138,10 @@ async function getIncident(id) {
 
         var id = res.recordset[i].id;
         var inc_number = res.recordset[i].inc_number;        
-        var create_date = res.recordset[i].create_date;        
-        var short_description = res.recordset[i].short_description;        
+        var create_date = res.recordset[i].create_date;            
         var describe = res.recordset[i].describe;        
         var sender = res.recordset[i].sender;        
-        var impact = res.recordset[i].impact;        
-        var urgency = res.recordset[i].urgency;        
-        var priority = res.recordset[i].priority;        
+        var urgency = res.recordset[i].urgency;                
         var state = res.recordset[i].state;        
         var category = res.recordset[i].category;        
         var subcategory = res.recordset[i].subcategory;        
@@ -174,12 +159,9 @@ async function getIncident(id) {
             'id': id, 
             'inc_number': inc_number,
             'create_date': create_date,
-            'short_description': short_description,
             'describe': describe,
             'sender': sender,
-            'impact': impact,
             'urgency': urgency,
-            'priority': priority,
             'state': state,
             'category': category,
             'subcategory': subcategory,
@@ -212,12 +194,9 @@ async function getByIncId(inc_number) {
         var id = res.recordset[i].id;
         var inc_number = res.recordset[i].inc_number;        
         var create_date = res.recordset[i].create_date;        
-        var short_description = res.recordset[i].short_description;        
         var describe = res.recordset[i].describe;        
         var sender = res.recordset[i].sender;        
-        var impact = res.recordset[i].impact;        
         var urgency = res.recordset[i].urgency;        
-        var priority = res.recordset[i].priority;        
         var state = res.recordset[i].state;        
         var category = res.recordset[i].category;        
         var subcategory = res.recordset[i].subcategory;        
@@ -235,12 +214,9 @@ async function getByIncId(inc_number) {
             'id': id, 
             'inc_number': inc_number,
             'create_date': create_date,
-            'short_description': short_description,
             'describe': describe,
             'sender': sender,
-            'impact': impact,
             'urgency': urgency,
-            'priority': priority,
             'state': state,
             'category': category,
             'subcategory': subcategory,

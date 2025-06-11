@@ -31,7 +31,7 @@ app.use('/notes', require('./notes/notes.controller'));
 app.use('/roles', require('./roles/roles.controller')); 
 app.use('/todos', require('./todos/todos.controller')); 
 app.use('/categorys', require('./categorys/categorys.controller')); 
-app.use('/sucategory', require('./sucategory/sucategory.controller')); 
+app.use('/subcategory', require('./subcategory/subcategory.controller')); 
 app.use('/knowledges', require('./knowledges/knowledges.controller')); 
 app.use('/incidents', require('./incidents/incidents.controller')); 
 app.use('/incident_category', require('./incident_category/incident_category.controller')); 
