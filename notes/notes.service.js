@@ -22,7 +22,9 @@ async function getAll() {
         var incident_id = res.recordset[i].incident_id;        
         var user_id = res.recordset[i].user_id;        
         var create_date = res.recordset[i].create_date;        
-        var message = res.recordset[i].message;        
+        var message = res.recordset[i].message;
+        var note_read = res.recordset[i].note_read;
+        var receiver_id = res.recordset[i].receiver_id;
 
         notes.push({
             'id': id, 
@@ -30,7 +32,9 @@ async function getAll() {
             'incident_id': incident_id,
             'user_id': user_id,
             'create_date': create_date,
-            'message': message
+            'message': message,
+            'note_read': note_read,
+            'receiver_id': receiver_id
         });
     }
     
@@ -50,6 +54,8 @@ async function create(params) {
         .input("incident_id", params.incident_id)
         .input("user_id", params.user_id)
         .input("message", params.message)
+        .input("note_read", params.note_read)
+        .input("receiver_id", params.receiver_id)
         .execute("api_itsm_notes_create");
 
     return res;
@@ -63,6 +69,8 @@ async function update(id, params) {
     const res = await conn.request()
         .input("id", id)
         .input("message", params.message)
+        .input("note_read", params.note_read)
+        .input("receiver_id", params.receiver_id)
         .execute("api_itsm_notes_update");
 
     return res.recordset[0];
@@ -99,6 +107,8 @@ async function getNote(id) {
         var user_id = res.recordset[i].user_id;        
         var create_date = res.recordset[i].create_date;        
         var message = res.recordset[i].message;        
+        var note_read = res.recordset[i].note_read;
+        var receiver_id = res.recordset[i].receiver_id;
 
         notes.push({
             'id': id, 
@@ -106,7 +116,9 @@ async function getNote(id) {
             'incident_id': incident_id,
             'user_id': user_id,
             'create_date': create_date,
-            'message': message
+            'message': message,
+            'note_read': note_read,
+            'receiver_id': receiver_id
         });
     }
     
