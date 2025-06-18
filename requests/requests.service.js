@@ -21,8 +21,7 @@ async function getAll() {
         var req_id = res.recordset[i].req_id;        
         var pro_id = res.recordset[i].pro_id;        
         var sender = res.recordset[i].sender;        
-        var state = res.recordset[i].state;        
-        var short_description = res.recordset[i].short_description;        
+        var state = res.recordset[i].state;               
         var description = res.recordset[i].description;        
         var create_date = res.recordset[i].create_date;        
         var assignment_group = res.recordset[i].assignment_group;        
@@ -37,7 +36,6 @@ async function getAll() {
             'pro_id': pro_id,
             'sender': sender,
             'state': state,
-            'short_description': short_description,
             'description': description,
             'create_date': create_date,
             'assignment_group': assignment_group,
@@ -64,7 +62,6 @@ async function create(params) {
         .input("pro_id", params.pro_id)
         .input("sender", params.sender)
         .input("state", params.state)
-        .input("short_description", params.short_description)
         .input("description", params.description)
         .input("assignment_group", params.assignment_group)
         .input("quantity", params.quantity)
@@ -83,7 +80,6 @@ async function update(id, params) {
         .input("id", id)
         .input("pro_id", params.pro_id)
         .input("state", params.state)
-        .input("short_description", params.short_description)
         .input("description", params.description)
         .input("assignment_group", params.assignment_group)
         .input("updated_by", params.updated_by)
@@ -124,7 +120,6 @@ async function getRequest(id) {
         var pro_id = res.recordset[i].pro_id;        
         var sender = res.recordset[i].sender;        
         var state = res.recordset[i].state;        
-        var short_description = res.recordset[i].short_description;        
         var description = res.recordset[i].description;        
         var create_date = res.recordset[i].create_date;        
         var assignment_group = res.recordset[i].assignment_group;        
@@ -139,7 +134,6 @@ async function getRequest(id) {
             'pro_id': pro_id,
             'sender': sender,
             'state': state,
-            'short_description': short_description,
             'description': description,
             'create_date': create_date,
             'assignment_group': assignment_group,
