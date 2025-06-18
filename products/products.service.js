@@ -25,20 +25,17 @@ async function getAll() {
         }
 
         var id = res.recordset[i].id;
-        var pro_number = res.recordset[i].pro_number;        
-        var category_id = res.recordset[i].category_id; 
+        var pro_number = res.recordset[i].pro_number;
         var item_title = res.recordset[i].item_title;        
         var description = res.recordset[i].description;        
         var quantity = res.recordset[i].quantity;        
         var active = res.recordset[i].active;        
         var responsible = res.recordset[i].responsible;        
-        var photo_type = res.recordset[i].photo_type;        
-        var product_type = res.recordset[i].product_type;        
+        var photo_type = res.recordset[i].photo_type;       
 
         products.push({
             'id': id, 
             'pro_number': pro_number,
-            'category_id': category_id,
             'photo': photoBase64,
             'item_title': item_title,
             'description': description,
@@ -46,7 +43,6 @@ async function getAll() {
             'active': active,
             'responsible': responsible,
             'photo_type': photo_type,
-            'product_type': product_type
         });
     }
     
@@ -63,13 +59,11 @@ async function create(params) {
     const conn = await db.getConnection();
     const request = conn.request()
         .input("pro_number", params.pro_number)
-        .input("category_id", params.category_id)
         .input("item_title", params.item_title)
         .input("description", params.description)
         .input("quantity", params.quantity)
         .input("responsible", params.responsible)
         .input("photo_type", params.photo_type)
-        .input("product_type", params.product_type);
 
     if (params.photo) {
         try {
@@ -100,14 +94,12 @@ async function update(id, params) {
     const conn = await db.getConnection();
     const request = conn.request()
         .input("id", id)
-        .input("category_id", params.category_id)
         .input("item_title", params.item_title)
         .input("description", params.description)
         .input("quantity", params.quantity)
         .input("active", params.active)
         .input("responsible", params.responsible)
         .input("photo_type", params.photo_type)
-        .input("product_type", params.product_type);
     
         if (params.photo) {
             try {
@@ -159,19 +151,16 @@ async function getProduct(id) {
 
         var id = res.recordset[i].id;
         var pro_number = res.recordset[i].pro_number;        
-        var category_id = res.recordset[i].category_id; 
         var item_title = res.recordset[i].item_title;        
         var description = res.recordset[i].description;        
         var quantity = res.recordset[i].quantity;        
         var active = res.recordset[i].active;        
         var responsible = res.recordset[i].responsible;        
         var photo_type = res.recordset[i].photo_type;        
-        var product_type = res.recordset[i].product_type;        
 
         products.push({
             'id': id, 
             'pro_number': pro_number,
-            'category_id': category_id,
             'photo': photoBase64,
             'item_title': item_title,
             'description': description,
@@ -179,7 +168,6 @@ async function getProduct(id) {
             'active': active,
             'responsible': responsible,
             'photo_type': photo_type,
-            'product_type': product_type
         });
     }
     
