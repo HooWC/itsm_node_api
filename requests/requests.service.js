@@ -28,7 +28,8 @@ async function getAll() {
         var update_date = res.recordset[i].update_date;        
         var updated_by = res.recordset[i].updated_by;        
         var closed_date = res.recordset[i].closed_date;        
-        var quantity = res.recordset[i].quantity;        
+        var quantity = res.recordset[i].quantity;  
+        var assigned_to = res.recordset[i].assigned_to;       
 
         requests.push({
             'id': id, 
@@ -42,7 +43,8 @@ async function getAll() {
             'update_date': update_date,
             'updated_by': updated_by,
             'closed_date': closed_date,
-            'quantity': quantity
+            'quantity': quantity,
+            'assigned_to': assigned_to
         });
     }
     
@@ -66,6 +68,7 @@ async function create(params) {
         .input("assignment_group", params.assignment_group)
         .input("quantity", params.quantity)
         .input("updated_by", params.updated_by)
+        .input("assigned_to", params.assigned_to)
         .execute("api_itsm_request_create");
 
     return res;
@@ -85,6 +88,7 @@ async function update(id, params) {
         .input("updated_by", params.updated_by)
         .input("closed_date", params.closed_date)
         .input("quantity", params.quantity)
+        .input("assigned_to", params.assigned_to)
         .execute("api_itsm_request_update");
 
     return res.recordset[0];
@@ -127,6 +131,7 @@ async function getRequest(id) {
         var updated_by = res.recordset[i].updated_by;        
         var closed_date = res.recordset[i].closed_date;        
         var quantity = res.recordset[i].quantity;        
+        var assigned_to = res.recordset[i].assigned_to;   
 
         requests.push({
             'id': id, 
@@ -140,7 +145,8 @@ async function getRequest(id) {
             'update_date': update_date,
             'updated_by': updated_by,
             'closed_date': closed_date,
-            'quantity': quantity
+            'quantity': quantity,
+            'assigned_to': assigned_to
         });
     }
     
