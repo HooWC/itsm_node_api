@@ -25,6 +25,7 @@ async function getAll() {
         var message = res.recordset[i].message;
         var note_read = res.recordset[i].note_read;
         var receiver_id = res.recordset[i].receiver_id;
+        var post_type = res.recordset[i].post_type;
 
         notes.push({
             'id': id, 
@@ -34,7 +35,8 @@ async function getAll() {
             'create_date': create_date,
             'message': message,
             'note_read': note_read,
-            'receiver_id': receiver_id
+            'receiver_id': receiver_id,
+            'post_type': post_type
         });
     }
     
@@ -56,6 +58,7 @@ async function create(params) {
         .input("message", params.message)
         .input("note_read", params.note_read)
         .input("receiver_id", params.receiver_id)
+        .input("post_type", params.post_type)
         .execute("api_itsm_notes_create");
 
     return res;
@@ -109,6 +112,7 @@ async function getNote(id) {
         var message = res.recordset[i].message;        
         var note_read = res.recordset[i].note_read;
         var receiver_id = res.recordset[i].receiver_id;
+        var post_type = res.recordset[i].post_type;
 
         notes.push({
             'id': id, 
@@ -118,7 +122,8 @@ async function getNote(id) {
             'create_date': create_date,
             'message': message,
             'note_read': note_read,
-            'receiver_id': receiver_id
+            'receiver_id': receiver_id,
+            'post_type': post_type
         });
     }
     
