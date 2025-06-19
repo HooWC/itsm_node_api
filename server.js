@@ -40,6 +40,11 @@ app.use('/requests', require('./requests/requests.controller'));
 app.use('/cmdb', require('./cmdb/cmdb.controller')); 
 app.use('/myversions', require('./myversion/myversion.controller')); 
 app.use('/incident_photos', require('./incident_photos/incident_photos.controller'));
+app.use('/req_function', require('./req_function/req_function.controller')); 
+app.use('/req_subcategory', require('./req_subcategory/req_subcategory.controller')); 
+app.use('/req_category', require('./req_category/req_category.controller')); 
+app.use('/request_photos', require('./request_photos/request_photos.controller')); 
+app.use('/req_notes', require('./req_notes/req_notes.controller')); 
 
 app.use(errorHandler);
 
