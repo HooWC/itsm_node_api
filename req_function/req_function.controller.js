@@ -7,8 +7,8 @@ const functionService = require('./req_function.service');
 
 router.get('/', authorize(), getAll);
 router.get('/:id', authorize(), getById);
-router.post('/', authorize(), createSchema, create);
-router.put('/:id', authorize(), updateSchema, update);
+router.post('/', authorize(), create);
+router.put('/:id', authorize(), update);
 router.delete('/:id', authorize(), _delete);
 
 module.exports = router;
@@ -42,19 +42,3 @@ function _delete(req, res, next) {
         .then(() => res.json({ message: 'Function deleted successfully' }))
         .catch(next);
 }
-
-function createSchema(req, res, next) {
-    const schema = Joi.object({
-        name: Joi.string().required(),
-        req_subcategory_id: Joi.number().required()
-    });
-    validateRequest(req, next, schema);
-}
-
-function updateSchema(req, res, next) {
-    const schema = Joi.object({
-        name: Joi.string().required(),
-        req_subcategory_id: Joi.number().required()
-    });
-    validateRequest(req, next, schema);
-} 

@@ -17,10 +17,12 @@ async function getAll() {
     for (var i = 0; i < res.recordset.length; i++) {
         var id = res.recordset[i].id;
         var name = res.recordset[i].name;
+        var erp_version = res.recordset[i].erp_version;
 
         categories.push({
             'id': id, 
-            'name': name
+            'name': name,
+            'erp_version': erp_version
         });
     }
     
@@ -35,6 +37,7 @@ async function create(params) {
     const conn = await db.getConnection();
     const res = await conn.request()
         .input("name", params.name)
+        .input("erp_version", params.erp_version)
         .execute("api_itsm_req_category_create");
     return res;
 }
@@ -46,6 +49,7 @@ async function update(id, params) {
     const res = await conn.request()
         .input("id", id)
         .input("name", params.name)
+        .input("erp_version", params.erp_version)
         .execute("api_itsm_req_category_update");
     return res;
 }
@@ -73,10 +77,12 @@ async function getCategory(id) {
     for (var i = 0; i < res.recordset.length; i++) {
         var id = res.recordset[i].id;
         var name = res.recordset[i].name;
+        var erp_version = res.recordset[i].erp_version;
 
         categories.push({
             'id': id, 
-            'name': name
+            'name': name,
+            'erp_version': erp_version
         });
     }
     
