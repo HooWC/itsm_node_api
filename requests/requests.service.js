@@ -3,6 +3,7 @@ const db = require('../_helpers/db');
 module.exports = {
     getAll,
     getById,
+    getByReqId,
     create,
     update,
     delete: _delete
@@ -151,6 +152,73 @@ async function getRequest(id) {
         .execute("api_itsm_request_get_by_id");
 
     if (res.recordset.length == 0) throw 'Trquest not found';    
+
+    var requests = new Array();
+    
+    for (var i = 0; i < res.recordset.length; i++) {
+
+        var id = res.recordset[i].id;
+        var req_id = res.recordset[i].req_id;        
+        var pro_id = res.recordset[i].pro_id;        
+        var sender = res.recordset[i].sender;        
+        var state = res.recordset[i].state;        
+        var description = res.recordset[i].description;        
+        var create_date = res.recordset[i].create_date;        
+        var assignment_group = res.recordset[i].assignment_group;        
+        var update_date = res.recordset[i].update_date;        
+        var updated_by = res.recordset[i].updated_by;        
+        var quantity = res.recordset[i].quantity;        
+        var assigned_to = res.recordset[i].assigned_to;   
+        var req_type = res.recordset[i].req_type;
+        var erp_version = res.recordset[i].erp_version;
+        var erp_category = res.recordset[i].erp_category;
+        var erp_subcategory = res.recordset[i].erp_subcategory;
+        var erp_function = res.recordset[i].erp_function;
+        var erp_module = res.recordset[i].erp_module;
+        var erp_user_account = res.recordset[i].erp_user_account;
+        var erp_report = res.recordset[i].erp_report;
+        var erp_resolution_type = res.recordset[i].erp_resolution_type;
+        var erp_resolution = res.recordset[i].erp_resolution;
+        var erp_resolved_data = res.recordset[i].erp_resolved_data;
+
+        requests.push({
+            'id': id, 
+            'req_id': req_id,
+            'pro_id': pro_id,
+            'sender': sender,
+            'state': state,
+            'description': description,
+            'create_date': create_date,
+            'assignment_group': assignment_group,
+            'update_date': update_date,
+            'updated_by': updated_by,
+            'quantity': quantity,
+            'assigned_to': assigned_to,
+            'req_type': req_type,
+            'erp_version': erp_version,
+            'erp_category': erp_category,
+            'erp_subcategory': erp_subcategory,
+            'erp_function': erp_function,
+            'erp_module': erp_module,
+            'erp_user_account': erp_user_account,
+            'erp_report': erp_report,
+            'erp_resolution_type': erp_resolution_type,
+            'erp_resolution': erp_resolution,
+            'erp_resolved_data': erp_resolved_data
+        });
+    }
+    
+    return requests;
+}
+
+// done
+async function getByReqId(req_id) {
+    const conn = await db.getConnection();
+    const res = await conn.request()
+        .input("req_id", req_id)
+        .execute("api_itsm_req_get_by_reqid");
+
+    if (res.recordset.length == 0) throw 'Request data not found';    
 
     var requests = new Array();
     

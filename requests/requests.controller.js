@@ -6,6 +6,7 @@ const requestService = require('./requests.service');
 // routes
 router.get('/', authorize(), getAll);
 router.get('/:id', authorize(), getById);
+router.get('/reqid/:req_id', authorize(), getByReqId);
 router.post('/', authorize(), create);
 router.put('/:id', authorize(), update);
 router.delete('/:id', authorize(), _delete);
@@ -44,5 +45,11 @@ function update(req, res, next) {
 function _delete(req, res, next) {
     requestService.delete(req.params.id)
         .then(() => res.json({ message: 'This request has been deleted successfully' }))
+        .catch(next);
+} 
+
+function getByReqId(req, res, next) {
+    requestService.getByReqId(req.params.req_id)
+        .then(item => res.json(item))
         .catch(next);
 } 

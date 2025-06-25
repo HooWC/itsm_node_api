@@ -86,9 +86,7 @@ async function getAll() {
         var create_date = res.recordset[i].create_date;            
         var update_date = res.recordset[i].update_date;            
         var active = res.recordset[i].active;            
-        var photo_type = res.recordset[i].photo_type;            
-        var approve = res.recordset[i].approve; 
-        var Manager = res.recordset[i].Manager; 
+        var photo_type = res.recordset[i].photo_type;      
         var r_manager = res.recordset[i].r_manager;           
 
         user.push({
@@ -109,8 +107,6 @@ async function getAll() {
             'update_date': update_date,
             'active': active,
             "photo_type": photo_type,
-            "approve": approve,
-            "Manager": Manager,
             "r_manager": r_manager
         });
     }
@@ -158,8 +154,6 @@ async function create(params) {
         .input("password", passwordHash)
         .input("race", params.race)
         .input("photo_type", params.photo_type)
-        .input("approve", params.approve)
-        .input("Manager", params.Manager)
         .input("r_manager", params.r_manager)
 
     if (params.photo && typeof params.photo === 'string') {
@@ -218,8 +212,6 @@ async function update(id, params) {
         .input("photo_type", params.photo_type)
         .input("active", params.active)
         .input("race", params.race)
-        .input("approve", params.approve)
-        .input("Manager", params.Manager)
         .input("r_manager", params.r_manager);
 
     if (params.password && params.password.trim() !== '') {
@@ -291,8 +283,6 @@ async function getUser(id) {
         var update_date = res.recordset[i].update_date;            
         var active = res.recordset[i].active;           
         var photo_type = res.recordset[i].photo_type; 
-        var approve = res.recordset[i].approve; 
-        var Manager = res.recordset[i].Manager; 
         var r_manager = res.recordset[i].r_manager;           
 
         user.push({
@@ -313,8 +303,6 @@ async function getUser(id) {
             'update_date': update_date,
             'active': active,
             "photo_type": photo_type,
-            "approve": approve,
-            "Manager": Manager,
             "r_manager": r_manager
         });
     }
