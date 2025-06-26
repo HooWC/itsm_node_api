@@ -40,7 +40,7 @@ async function getAll() {
         var erp_report = res.recordset[i].erp_report;
         var erp_resolution_type = res.recordset[i].erp_resolution_type;
         var erp_resolution = res.recordset[i].erp_resolution;
-        var erp_resolved_data = res.recordset[i].erp_resolved_data;
+        var erp_resolved_date = res.recordset[i].erp_resolved_date;
 
         requests.push({
             'id': id, 
@@ -65,7 +65,7 @@ async function getAll() {
             'erp_report': erp_report,
             'erp_resolution_type': erp_resolution_type,
             'erp_resolution': erp_resolution,
-            'erp_resolved_data': erp_resolved_data
+            'erp_resolved_date': erp_resolved_date
         });
     }
     
@@ -100,7 +100,7 @@ async function create(params) {
         .input("erp_report", params.erp_report)
         .input("erp_resolution_type", params.erp_resolution_type)
         .input("erp_resolution", params.erp_resolution)
-        .input("erp_resolved_data", params.erp_resolved_data)
+        .input("erp_resolved_date", params.erp_resolved_date)
         .execute("api_itsm_request_create");
 
     return res;
@@ -125,7 +125,7 @@ async function update(id, params) {
         .input("erp_report", params.erp_report)
         .input("erp_resolution_type", params.erp_resolution_type)
         .input("erp_resolution", params.erp_resolution)
-        .input("erp_resolved_data", params.erp_resolved_data)
+        .input("erp_resolved_date", params.erp_resolved_date)
         .execute("api_itsm_request_update");
 
     return res.recordset[0];
@@ -178,7 +178,7 @@ async function getRequest(id) {
         var erp_report = res.recordset[i].erp_report;
         var erp_resolution_type = res.recordset[i].erp_resolution_type;
         var erp_resolution = res.recordset[i].erp_resolution;
-        var erp_resolved_data = res.recordset[i].erp_resolved_data;
+        var erp_resolved_date = res.recordset[i].erp_resolved_date;
 
         requests.push({
             'id': id, 
@@ -203,7 +203,7 @@ async function getRequest(id) {
             'erp_report': erp_report,
             'erp_resolution_type': erp_resolution_type,
             'erp_resolution': erp_resolution,
-            'erp_resolved_data': erp_resolved_data
+            'erp_resolved_date': erp_resolved_date
         });
     }
     
@@ -245,7 +245,7 @@ async function getByReqId(req_id) {
         var erp_report = res.recordset[i].erp_report;
         var erp_resolution_type = res.recordset[i].erp_resolution_type;
         var erp_resolution = res.recordset[i].erp_resolution;
-        var erp_resolved_data = res.recordset[i].erp_resolved_data;
+        var erp_resolved_date = res.recordset[i].erp_resolved_date;
 
         requests.push({
             'id': id, 
@@ -270,7 +270,7 @@ async function getByReqId(req_id) {
             'erp_report': erp_report,
             'erp_resolution_type': erp_resolution_type,
             'erp_resolution': erp_resolution,
-            'erp_resolved_data': erp_resolved_data
+            'erp_resolved_date': erp_resolved_date
         });
     }
     
