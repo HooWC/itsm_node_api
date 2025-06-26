@@ -120,7 +120,6 @@ async function update(id, params) {
         .input("updated_by", params.updated_by)
         .input("quantity", params.quantity)
         .input("assigned_to", params.assigned_to)
-        .input("req_type", params.req_type)
         .input("erp_module", params.erp_module)
         .input("erp_user_account", params.erp_user_account)
         .input("erp_report", params.erp_report)
